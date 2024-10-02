@@ -9,14 +9,17 @@ namespace WinFormsApp3
         static extern bool AllocConsole();
 
         int clickCount;
+        int tt;
         TreeView tree;
         Button btn;
         Label lbl;
         PictureBox pbox;
+        CheckBox chk1;
+        CheckBox chk2;
         public StartForm()
         {
             clickCount = 0;
-
+            tt = 0;
             this.Height = 500;
             this.Width = 700;
 
@@ -49,13 +52,23 @@ namespace WinFormsApp3
             lbl.MouseLeave += Lbl_MouseLeave;
 
             pbox = new PictureBox();
-            pbox.Size = new Size(60, 60);
+            pbox.Size = new Size(160, 160);
             pbox.Location = new Point(150, btn.Height + lbl.Height + 5);
             pbox.SizeMode = PictureBoxSizeMode.Zoom;
             pbox.TabIndex = 0;
-            pbox.Image = Image.FromFile("");
+            pbox.Image = Image.FromFile(@"..\..\..\zxc.jpg");
+            pbox.DoubleClick += Pbox_DoubleClick;
 
         }
+        public void Pbox_DoubleClick(object? sender, EventArgs e)
+        {
+            string[] pildid = { "esimene.png", "teine.jpg", "kolmas.png" };
+            string fail = pildid[tt];
+            pbox.Image = Image.FromFile(@"..\..\..\" + fail);
+            tt++;
+            if (tt == 3) { tt = 0; }
+        }
+
         public void Lbl_MouseLeave(object? sender, EventArgs e)
         {
             lbl.BackColor = Color.Purple;
@@ -93,6 +106,50 @@ namespace WinFormsApp3
             else if (e.Node.Text == "Pilt")
             {
                 Controls.Add(pbox);
+            }
+            else if (e.Node.Text == "Märkeruut")
+            {
+                chk1 = new CheckBox();
+                chk1.Checked = false;
+                chk1.Text = e.Node.Text;
+                chk1.Size = new Size(chk1.Text.Length + 10, chk1.Size.Height);
+                chk1.Location = new Point(100, btn.Height + lbl.Height + pbox.Height + 10);
+
+                chk2 = new CheckBox();
+                chk2.Checked = false;
+                // chk2.Image = Image.FromFile(@"..\..\..\zxc.png");
+                chk2.BackgroundImage = Image.FromFile(@"..\..\..\zxc.png");
+                chk2.BackgroundImageLayout = ImageLayout.Zoom;
+                chk2.Size = new Size(100, 100);
+                chk2.Location = new Point(150, btn.Height + lbl.Height + pbox.Height + chk1.Height + 15);
+                chk2.CheckedChanged += new EventHandler(Chk_CheckedChanged);
+                Controls.Add(chk1);
+                Controls.Add(chk2);
+
+            }
+        }
+
+        private void Chk_CheckedChanged(object? senderk, EventArgs e)
+        {
+            if (chk1.Checked && chk2.Checked)
+            {
+                lbl.BorderStyle = BorderStyle.Fixed3D;
+                pbox.BorderStyle = BorderStyle.Fixed3D;
+            }
+            else if (chk1.Checked)
+            {
+                lbl.BorderStyle = BorderStyle.Fixed3D;
+                pbox.BorderStyle = BorderStyle.None;
+            }
+            else if (chk2.Checked)
+            {
+                pbox.BorderStyle = BorderStyle.Fixed3D;
+                lbl.BorderStyle = BorderStyle.None; 
+            }
+            else
+            {
+                lbl.BorderStyle = BorderStyle.None;
+                pbox.BorderStyle = BorderStyle.None;
             }
         }
     }
