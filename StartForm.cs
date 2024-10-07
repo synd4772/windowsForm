@@ -1,5 +1,8 @@
 
+using Microsoft.VisualBasic;
+using System.Data;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 namespace WinFormsApp3
 {
     public partial class StartForm: Form
@@ -19,16 +22,18 @@ namespace WinFormsApp3
         RadioButton rdb1;
         RadioButton rdb2;
         RadioButton rbtn;
-        List<RadioButton> rbtn_list;
+        List<string> rbtn_list;
         TextBox txt;
-
+        ListBox lb;
+        DataGridView dGV;
+        DataSet dS;
         public StartForm()
         {
             clickCount = 0;
             tt = 0;
             this.Height = 500;
             this.Width = 700;
-
+            List<string> rbtn_list = new List<string> { "Üks", "Kaks", "Kolm" };
             this.Text = "Vorm elementidega";
             tree = new TreeView();
             tree.Dock = DockStyle.Left;
@@ -39,11 +44,27 @@ namespace WinFormsApp3
             tn.Nodes.Add(new TreeNode("Pilt"));
             tn.Nodes.Add(new TreeNode("Märkeruut"));
             tn.Nodes.Add(new TreeNode("Raadionupp"));
+            
+            tn.Nodes.Add(new TreeNode("Tekstikast"));
+            tn.Nodes.Add(new TreeNode("DataGridView"));
+            tn.Nodes.Add(new TreeNode("Loetelu"));
+
+            tree.BackColor = Color.Red;
 
             tree.Nodes.Add(tn);
             this.Controls.Add(tree);
+            lbl = new Label();
 
 
+
+
+            dS = new DataSet("XML file");
+            dS.ReadXml(@"..\..\..\plant_catalog.xml");
+            dGV = new DataGridView();
+            dGV.Location = new Point(350, 400);
+            dGV.DataSource = dS;
+            dGV.DataMember = "PLANT";
+            dGV.Click += DGV_Click;
 
 
         }
@@ -54,15 +75,6 @@ namespace WinFormsApp3
             pbox.Image = Image.FromFile(@"..\..\..\" + fail);
             tt++;
             if (tt == 3) { tt = 0; }
-        }
-
-        public void Lbl_MouseLeave(object? sender, EventArgs e)
-        {
-            lbl.BackColor = Color.Purple;
-        }
-        public void Lbl_MouseHover(object? sender, EventArgs e)
-        {
-            lbl.BackColor = Color.Red;
         }
 
         private void Btn_Click(object? sender, EventArgs e)
@@ -101,8 +113,9 @@ namespace WinFormsApp3
                 lbl.Font = new Font("Arial", 30, FontStyle.Underline);
                 lbl.Size = new Size(200, 50);
                 lbl.Location = new Point(150, getFreeY(10));
-                lbl.MouseHover += Lbl_MouseHover;
+                lbl.MouseHover +=   Lbl_MouseHover;
                 lbl.MouseLeave += Lbl_MouseLeave;
+
                 Controls.Add(lbl);
             }
             else if (e.Node.Text == "Pilt")
@@ -139,44 +152,96 @@ namespace WinFormsApp3
             }
             else if (e.Node.Text == "Raadionupp")
             {
-                rdb1 = new RadioButton();
-                rdb1.Checked = false;
-                rdb1.Text = "Must teema";
-                rdb1.Location = new Point(150, getFreeY(10));
 
-                rdb2 = new RadioButton();
-                rdb2.Text = "Valge teema";
-                rdb2.Location = new Point(150, getFreeY(10));
+                int startY = 250;
+                int spacing = 30;
+                
+                for (int i = 0; i < rbtn_list.Count; i++)
+                {
+                    rbtn = new RadioButton();
+                    rbtn.Checked = false;
+                    rbtn.Text = rbtn_list[i];
+                    rbtn.Size = new Size(100, 40);
+                    rbtn.Location = new Point(350, startY + (i * spacing)); 
+                    rbtn.CheckedChanged += new EventHandler(Btn_CheckedChanged);
 
-                Controls.Add(rdb1);
-                Controls.Add(rdb2);
-                rbtn_list.Add(rdb1);
-                rbtn_list.Add(rdb2);
-
-                //int x = 20; 
-                //for (int i = 0; i < rbtn_list.Count; i++)
-                //{
-                //    rbtn = new RadioButton();
-                //    rbtn.Checked = false;
-                //    rbtn.Text = rbtn_list[i].Text;
-                //    rbtn.Height = x;
-                //    x += 20;
-                    
-                //}
+                    this.Controls.Add(rbtn);
+                }
             }
             else if (e.Node.Text == "Tekstikast")
             {
                 txt = new TextBox();
+                Console.WriteLine(getFreeY(10));
                 txt.Location = new Point(150, getFreeY(10));
                 txt.Font = new Font("Arial", 26);
-                txt.Width = 100;
+                txt.Width = 200;
                 txt.TextChanged += Txt_TextChanged;
                 Controls.Add(txt);
+            }
+            else if (e.Node.Text == "Loetelu")
+            {
+                lb = new ListBox();
+                foreach(string item in rbtn_list)
+                {
+                    lb.Items.Add(item);
+                }
+
+                lb.Location = new Point(160 + btn.Width + txt.Width, getFreeY(10));
+                lb.SelectedIndexChanged += Lb_SelectedIndexChanged;
+                Controls.Add(lb);   
+            }
+            else if (e.Node.Text == "Dialoogi aknad")
+            {
+                MessageBox.Show("Dialogue", "This is a simple window");
+                var vastus = MessageBox.Show("Insert data", "Do you want to use the InputBox?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (vastus == DialogResult.Yes)
+                {
+                    string text = Interaction.InputBox("Write something here", "Data insertion");
+                    MessageBox.Show("You wrote: " + text, text);
+                }
+            }
+            else if (e.Node.Text == "DataGridView")
+            {
+                dS = new DataSet("XML file");
+                dS.ReadXml(@"..\..\..\plant_catalog.xml");
+                dGV = new DataGridView();
+                dGV.Location = new Point(500, 400);
+                dGV.DataSource = dS;
+                dGV.DataMember = "PLANT";
+                dGV.Click += DGV_Click;
+                Controls.Add(dGV);
+            }
+        }
+        private void Btn_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rb = (RadioButton)sender;
+            lbl.Text = rb.Text;
+        }
+
+        private void Lb_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            switch (lb.SelectedIndex)
+            {
+                case 0: tree.BackColor = Color.Red; break;
+                case 1: tree.BackColor = Color.Chocolate; break;
+                case 2: tree.BackColor = Color.Purple; break;
+                case 3: tree.BackColor = Color.PaleTurquoise; break;
             }
         }
 
         private void Txt_TextChanged(object? sender, EventArgs e)
         {
+            lbl.Text = txt.Text;
+        }
+
+        private void Lbl_MouseLeave(object? sender, EventArgs e)
+        {
+            lbl.Font = new Font("Arial", 30, FontStyle.Underline);
+        }
+        private void Lbl_MouseHover(object? sender, EventArgs e)
+        {
+            lbl.Font = new Font("Arial", 32, FontStyle.Underline);
+            lbl.ForeColor = Color.FromArgb(70, 50, 150, 200);
 
         }
 
@@ -184,6 +249,8 @@ namespace WinFormsApp3
         {
             throw new NotImplementedException();
         }
+
+
 
         private int getFreeY(int plus)
         {
@@ -242,5 +309,10 @@ namespace WinFormsApp3
                 pbox.BorderStyle = BorderStyle.None;
             }
         }
+        private void DGV_Click(object? sender, EventArgs e)
+        {
+            MessageBox.Show(dGV.SelectedCells[0].Value.ToString());
+        }
+
     }
 }
