@@ -27,8 +27,12 @@ namespace WinFormsApp3
         ListBox lb;
         DataGridView dGV;
         DataSet dS;
+        esimeneVorm ev;
+        teineVorm tv;
         public StartForm()
         {
+
+
             clickCount = 0;
             tt = 0;
             this.Height = 500;
@@ -48,6 +52,7 @@ namespace WinFormsApp3
             tn.Nodes.Add(new TreeNode("Tekstikast"));
             tn.Nodes.Add(new TreeNode("DataGridView"));
             tn.Nodes.Add(new TreeNode("Loetelu"));
+            tn.Nodes.Add(new TreeNode("Vormid"));
 
             tree.BackColor = Color.Red;
 
@@ -81,7 +86,8 @@ namespace WinFormsApp3
         {
             
             clickCount++;
-            if(clickCount % 2 == 0)
+
+            if (clickCount % 2 == 0)
             {
                 btn.BackColor = Color.Red;
             }
@@ -90,6 +96,30 @@ namespace WinFormsApp3
                 btn.BackColor = Color.Green;
             }
         }
+        private void avaEsimeneVorm(object? sender, EventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+            if (rb.Checked)
+            {
+                ev = new esimeneVorm(800, 500);
+                ev.Show();
+
+            }
+        }
+        private void avaTeineVorm(object sender, EventArgs e)
+        {
+            RadioButton rb = sender as RadioButton;
+            if (rb.Checked)
+            {
+                tv = new teineVorm(500, 400);
+                tv.Show();
+
+            }
+        }
+        private void avaKolmasVorm(object sender, EventArgs e)
+        {
+
+        }
         private void Tree_AfterSelect(object? sender, TreeViewEventArgs e)
         {
             AllocConsole();
@@ -97,12 +127,14 @@ namespace WinFormsApp3
             if (e.Node.Text == "Nupp")
             {
                 //nupp-button
+
                 btn = new Button();
                 btn.Text = "Vajuta siia";
                 btn.Height = 50;
                 btn.Width = 70;
                 btn.Location = new Point(150, getFreeY(10));
                 btn.Click += Btn_Click;
+ 
                 Controls.Add(btn);
             }
             else if (e.Node.Text == "Silt")
@@ -210,6 +242,34 @@ namespace WinFormsApp3
                 dGV.DataMember = "PLANT";
                 dGV.Click += DGV_Click;
                 Controls.Add(dGV);
+            }
+            else if (e.Node.Text == "Vormid")
+            {
+                GroupBox vormidNuppid = new GroupBox();
+                RadioButton esimeneVorm = new RadioButton();
+                esimeneVorm.CheckedChanged += new EventHandler(avaEsimeneVorm);
+                esimeneVorm.Text = "Esimene vorm";
+                esimeneVorm.Location = new Point(0, getFreeY());
+                RadioButton teineVorm = new RadioButton();
+                teineVorm.CheckedChanged += new EventHandler(avaTeineVorm);
+                teineVorm.Text = "Teine vorm";
+                teineVorm.Location = new Point(0, getFreeY(20));
+                RadioButton kolmasVorm = new RadioButton();
+                kolmasVorm.CheckedChanged += new EventHandler(avaKolmasVorm);
+                kolmasVorm.Text = "Kolmas vorm";
+                kolmasVorm.Location = new Point(0, getFreeY(40));
+                vormidNuppid.Text = "Vormid";
+                List<RadioButton> nuppid = new List<RadioButton>()
+
+                {
+                    esimeneVorm, teineVorm, kolmasVorm
+                };
+                foreach (var nupp in nuppid)
+                {
+                    vormidNuppid.Controls.Add(nupp);
+                }
+                vormidNuppid.Location = new Point(150, getFreeY());
+                Controls.Add(vormidNuppid);
             }
         }
         private void Btn_CheckedChanged(object sender, EventArgs e)
