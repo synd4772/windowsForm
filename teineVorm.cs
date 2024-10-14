@@ -79,7 +79,6 @@ namespace WinFormsApp3
                 Label equalLabel = new Label();
 
                 firstNumber.Location = new Point(15 + 100, ExampleY + 10);
-                
                 operatorLabel.Location = new Point(55 + 100, ExampleY);
                 secondNumber.Location = new Point(95 + 100, ExampleY + 10);
                 equalLabel.Location = new Point(135 + 100, ExampleY);
