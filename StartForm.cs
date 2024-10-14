@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 namespace WinFormsApp3
 {
-    public partial class StartForm: Form
+    public partial class StartForm : Form
     {
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -29,6 +29,7 @@ namespace WinFormsApp3
         DataSet dS;
         esimeneVorm ev;
         teineVorm tv;
+        kolmasVorm kv;
         public StartForm()
         {
 
@@ -48,7 +49,7 @@ namespace WinFormsApp3
             tn.Nodes.Add(new TreeNode("Pilt"));
             tn.Nodes.Add(new TreeNode("Märkeruut"));
             tn.Nodes.Add(new TreeNode("Raadionupp"));
-            
+
             tn.Nodes.Add(new TreeNode("Tekstikast"));
             tn.Nodes.Add(new TreeNode("DataGridView"));
             tn.Nodes.Add(new TreeNode("Loetelu"));
@@ -84,7 +85,7 @@ namespace WinFormsApp3
 
         private void Btn_Click(object? sender, EventArgs e)
         {
-            
+
             clickCount++;
 
             if (clickCount % 2 == 0)
@@ -118,7 +119,13 @@ namespace WinFormsApp3
         }
         private void avaKolmasVorm(object sender, EventArgs e)
         {
+            RadioButton rb = sender as RadioButton;
+            if (rb.Checked)
+            {
+                kv = new kolmasVorm();
+                kv.Show();
 
+            }
         }
         private void Tree_AfterSelect(object? sender, TreeViewEventArgs e)
         {
@@ -134,7 +141,7 @@ namespace WinFormsApp3
                 btn.Width = 70;
                 btn.Location = new Point(150, getFreeY(10));
                 btn.Click += Btn_Click;
- 
+
                 Controls.Add(btn);
             }
             else if (e.Node.Text == "Silt")
@@ -145,7 +152,7 @@ namespace WinFormsApp3
                 lbl.Font = new Font("Arial", 30, FontStyle.Underline);
                 lbl.Size = new Size(200, 50);
                 lbl.Location = new Point(150, getFreeY(10));
-                lbl.MouseHover +=   Lbl_MouseHover;
+                lbl.MouseHover += Lbl_MouseHover;
                 lbl.MouseLeave += Lbl_MouseLeave;
 
                 Controls.Add(lbl);
@@ -187,14 +194,14 @@ namespace WinFormsApp3
 
                 int startY = 250;
                 int spacing = 30;
-                
+
                 for (int i = 0; i < rbtn_list.Count; i++)
                 {
                     rbtn = new RadioButton();
                     rbtn.Checked = false;
                     rbtn.Text = rbtn_list[i];
                     rbtn.Size = new Size(100, 40);
-                    rbtn.Location = new Point(350, startY + (i * spacing)); 
+                    rbtn.Location = new Point(350, startY + (i * spacing));
                     rbtn.CheckedChanged += new EventHandler(Btn_CheckedChanged);
 
                     this.Controls.Add(rbtn);
@@ -213,14 +220,14 @@ namespace WinFormsApp3
             else if (e.Node.Text == "Loetelu")
             {
                 lb = new ListBox();
-                foreach(string item in rbtn_list)
+                foreach (string item in rbtn_list)
                 {
                     lb.Items.Add(item);
                 }
 
                 lb.Location = new Point(160 + btn.Width + txt.Width, getFreeY(10));
                 lb.SelectedIndexChanged += Lb_SelectedIndexChanged;
-                Controls.Add(lb);   
+                Controls.Add(lb);
             }
             else if (e.Node.Text == "Dialoogi aknad")
             {
@@ -314,13 +321,13 @@ namespace WinFormsApp3
 
         private int getFreeY(int plus)
         {
-            List<int?> ints = new List<int?>() { 
+            List<int?> ints = new List<int?>() {
             btn?.Height, lbl?.Height, chk1?.Height, pbox?.Height, chk2?.Height, rdb1?.Height, rdb2?.Height
             };
             int sum = 0;
             foreach (int? i in ints)
             {
-                if( i is not null)
+                if (i is not null)
                 {
                     sum += (int)i;
                 }
@@ -361,7 +368,7 @@ namespace WinFormsApp3
             else if (chk2.Checked)
             {
                 pbox.BorderStyle = BorderStyle.Fixed3D;
-                lbl.BorderStyle = BorderStyle.None; 
+                lbl.BorderStyle = BorderStyle.None;
             }
             else
             {
