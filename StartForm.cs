@@ -30,15 +30,17 @@ namespace WinFormsApp3
         esimeneVorm ev;
         teineVorm tv;
         kolmasVorm kv;
+        Form currentVorm;
+        Random rand;
         public StartForm()
         {
-
+            
 
             clickCount = 0;
             tt = 0;
             this.Height = 500;
             this.Width = 700;
-            List<string> rbtn_list = new List<string> { "Üks", "Kaks", "Kolm" };
+            
             this.Text = "Vorm elementidega";
             tree = new TreeView();
             tree.Dock = DockStyle.Left;
@@ -99,12 +101,16 @@ namespace WinFormsApp3
         }
         private void avaEsimeneVorm(object? sender, EventArgs e)
         {
+            rand = new Random();
+            
             RadioButton rb = sender as RadioButton;
             if (rb.Checked)
             {
+                currentVorm?.Close();
+
                 ev = new esimeneVorm(800, 500);
                 ev.Show();
-
+                currentVorm = ev;
             }
         }
         private void avaTeineVorm(object sender, EventArgs e)
@@ -112,8 +118,11 @@ namespace WinFormsApp3
             RadioButton rb = sender as RadioButton;
             if (rb.Checked)
             {
+                currentVorm?.Close();
+
                 tv = new teineVorm(500, 400);
                 tv.Show();
+                currentVorm = tv;
 
             }
         }
@@ -122,8 +131,11 @@ namespace WinFormsApp3
             RadioButton rb = sender as RadioButton;
             if (rb.Checked)
             {
+                currentVorm?.Close();
+
                 kv = new kolmasVorm();
                 kv.Show();
+                currentVorm = kv;
 
             }
         }
@@ -220,6 +232,7 @@ namespace WinFormsApp3
             else if (e.Node.Text == "Loetelu")
             {
                 lb = new ListBox();
+                List<string> rbtn_list = new List<string> { "Üks", "Kaks", "Kolm" };
                 foreach (string item in rbtn_list)
                 {
                     lb.Items.Add(item);

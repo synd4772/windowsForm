@@ -78,13 +78,17 @@ namespace WinFormsApp3
                 Label secondNumber = new Label();
                 Label equalLabel = new Label();
 
+                NumericUpDown numericUpDown = new NumericUpDown();
+
                 firstNumber.Location = new Point(15 + 100, ExampleY + 10);
                 operatorLabel.Location = new Point(55 + 100, ExampleY);
                 secondNumber.Location = new Point(95 + 100, ExampleY + 10);
                 equalLabel.Location = new Point(135 + 100, ExampleY);
+                numericUpDown.Location = new Point(165 + 100, ExampleY + 5);
 
                 firstNumber.Name = "plusLeftLabel";
                 secondNumber.Name = "plusRightLabel";
+                numericUpDown.Name = numericUpDownNames[i];
 
                 numberLabels.Add(new List<Label>());
                 numberLabels[i].Add(firstNumber);
@@ -99,16 +103,14 @@ namespace WinFormsApp3
                 lst.Add(operatorLabel);
                 lst.Add(secondNumber);
                 lst.Add(equalLabel);
+                lst.Add(numericUpDown);
 
-                NumericUpDown numericUpDown = new NumericUpDown();
                 numericUpDown.Font = new Font("Arial", 18);
                 numericUpDown.MaximumSize = new Size(115, 100);
-                numericUpDown.Location = new Point(165 + 100, ExampleY + 5);
-                numericUpDown.Name = numericUpDownNames[i];
                 numericUpDown.Minimum = -100;
                 numericUpDown.TabIndex = i + 1;
                 numericUpDowns.Add(numericUpDown);
-                lst.Add(numericUpDown);
+                
 
                 ExampleY += DistanceBetweenExamples;
 
