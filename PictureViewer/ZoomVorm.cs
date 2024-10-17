@@ -32,7 +32,7 @@ namespace KolmRakendust
 
 
         }
-        private void trackBar1_Scroll(object sender, System.EventArgs e)
+        private void trackBar1_Scroll(object? sender, System.EventArgs e)
         {
             Console.WriteLine(trackBar.Value);
             if (bmp == null) bmp = (Bitmap)pragueneVorm.pb.Image;

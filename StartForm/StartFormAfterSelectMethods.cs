@@ -155,7 +155,7 @@ namespace KolmRakendust
                     }
                 });
                 
-                rdb.Text = vorm.Name;
+                rdb.Text = vorm.VormName;
                 rdb.Location = new Point(0, y);
                 vormidNuppid.Controls.Add(rdb);
                 y += 20;

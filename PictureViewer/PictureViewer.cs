@@ -11,13 +11,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms  ;
 
-
-
 namespace KolmRakendust
 {
     public partial class PictureViewer : Form, IVorm
     {
-        public string Name { get; private set; } = "Picture viewer";
+        public string VormName { get; set; } = "Picture viewer";
         public TableLayoutPanel tlp{ get; set; } 
         public PictureBox pb { get; set; }
         public CheckBox cb { get; set; }

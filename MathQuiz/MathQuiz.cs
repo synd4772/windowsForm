@@ -17,14 +17,14 @@ namespace KolmRakendust
         public Label lbl2 { get; set; }
         public List<List<Label>> numberLabels { get; set; }
         public List<NumericUpDown> numericUpDowns { get; set; }
-        public NumericUpDown nud { get; set; }
+        public NumericUpDown nud { get; set; } = new NumericUpDown();
         public Button startButton { get; set; }
-        public Random random { get; set; }
+        public Random random { get; set; } = new Random();
     }
 
     public partial class MathQuiz : Form, IVorm
     {
-        public string Name { get; private set; } = "Math quiz";
+        public string VormName { get; set; } = "Math quiz";
 
         public int timeLeft { get; private set; } = 300;
 
@@ -144,7 +144,7 @@ namespace KolmRakendust
             label.Font = new Font("Arial", 18);
             label.TextAlign = ContentAlignment.MiddleCenter;
         }
-        public void StartTheQuiz(object sender, EventArgs e)
+        public void StartTheQuiz(object? sender, EventArgs e)
         {
             startButton.Enabled = false;
             for (int i = 0; i < 4; i++)
@@ -245,7 +245,7 @@ namespace KolmRakendust
         }
 
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void timer1_Tick(object? sender, EventArgs e)
         {
             if (CheckTheAnswer())
             {

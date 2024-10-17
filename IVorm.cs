@@ -8,6 +8,6 @@ namespace KolmRakendust
 {
     public interface IVorm
     {
-        public string Name { get; set; }
+        public string VormName { get; set; }
     }
 }

@@ -12,18 +12,18 @@ namespace KolmRakendust
 {
     public partial class Game : Form, IVorm
     {
-        TableLayoutPanel tlp;
-        List<List<Label>> columnsAndRows;
-        Random random = new Random();
-        List<string> icons = new List<string>()
-        {
+        public TableLayoutPanel Tlp { get; set; } = new TableLayoutPanel();
+        public List<List<Label>> ColumnsAndRows { get; set; } = [];
+        private Random random { get; set; } = new Random();
+        private readonly List<string> icons =
+        [
             "!", "!", "N", "N", ",", ",", "k", "k",
             "b", "b", "v", "v", "w", "w", "z", "z"
-        };
-        Label? firstClicked = null;
-        Label? secondClicked = null;
-        bool next = false;
-        public string Name { get; private set; } = "Game";
+        ];
+        public Label? firstClicked { get; set; } = null;
+        public Label? secondClicked { get; set; } = null;
+        public bool next { get; set; } = false;
+        public string VormName { get;set; } = "Game";
 
         public Game()
         {
@@ -32,24 +32,24 @@ namespace KolmRakendust
 
             timer1 = new System.Windows.Forms.Timer();
 
-            tlp = new TableLayoutPanel();
-            tlp.BackColor = Color.CornflowerBlue;
-            tlp.Dock = DockStyle.Fill;
-            tlp.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
-            tlp.RowCount = 4;
-            tlp.ColumnCount = 4;
+            Tlp = new TableLayoutPanel();
+            Tlp.BackColor = Color.CornflowerBlue;
+            Tlp.Dock = DockStyle.Fill;
+            Tlp.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
+            Tlp.RowCount = 4;
+            Tlp.ColumnCount = 4;
 
-            columnsAndRows = new List<List<Label>>();
-            for (int i = 0; i < tlp.RowCount; i++)
+
+            for (int i = 0; i < Tlp.RowCount; i++)
             {
-                tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
+                Tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+                Tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             }
 
-            for (int i = 0; i < tlp.RowCount; i++)
+            for (int i = 0; i < Tlp.RowCount; i++)
             {
-                columnsAndRows.Add(new List<Label>());
-                for (int j = 0; j < tlp.ColumnCount; j++)
+                ColumnsAndRows.Add(new List<Label>());
+                for (int j = 0; j < Tlp.ColumnCount; j++)
                 {
                     int randInt = random.Next(0, icons.Count);
                     Label label = new Label();
@@ -62,14 +62,14 @@ namespace KolmRakendust
                     label.ForeColor = Color.CornflowerBlue;
                     label.Click += new EventHandler(label1_Click);
 
-                    tlp.Controls.Add(label);
+                    Tlp.Controls.Add(label);
 
                     icons.RemoveAt(randInt);
-                    columnsAndRows[i].Add(label);
+                    ColumnsAndRows[i].Add(label);
                 }
             }
 
-            this.Controls.Add(tlp);
+            this.Controls.Add(Tlp);
 
         }
         private void label1_Click(object? sender, EventArgs e)
@@ -129,9 +129,9 @@ namespace KolmRakendust
 
         private void CheckForWinner()
         {
-            foreach (Control control in tlp.Controls)
+            foreach (Control control in Tlp.Controls)
             {
-                Label iconLabel = control as Label;
+                Label? iconLabel = control as Label;
 
                 if (iconLabel != null)
                 {
