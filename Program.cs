@@ -1,4 +1,4 @@
-namespace WinFormsApp3
+namespace KolmRakendust
 {
     internal static class Program
     {

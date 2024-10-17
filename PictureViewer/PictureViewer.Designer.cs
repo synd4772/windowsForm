@@ -1,6 +1,6 @@
-﻿namespace WinFormsApp3
+﻿namespace KolmRakendust
 {
-    partial class kolmasVorm
+    partial class PictureViewer
     {
         /// <summary>
         /// Required designer variable.
@@ -19,7 +19,7 @@
             }
             base.Dispose(disposing);
         }
-        private System.Windows.Forms.Timer timer1;
+
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "kolmasVorm";
+            this.Text = "teineVorm";
         }
 
         #endregion

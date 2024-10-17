@@ -9,33 +9,35 @@ using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
-namespace WinFormsApp3
+namespace KolmRakendust
 {
-    public partial class teineVorm : Form
+    public partial class MathQuiz: Form, IVorm
     {
-        Label lbl;
-        Label lbl2;
+        public Label lbl { get; set; }
+        public Label lbl2 { get; set; }
+        public List<List<Label>> numberLabels { get; set; }
+        public List<NumericUpDown> numericUpDowns { get; set; }
+        public NumericUpDown nud { get; set; }
+        public Button startButton { get; set; }
+        public Random random { get; set; }
+    }
 
-        List<List<Label>> numberLabels;
-        List<NumericUpDown> numericUpDowns;
-        NumericUpDown nud;
+    public partial class MathQuiz : Form, IVorm
+    {
+        public string Name { get; private set; } = "Math quiz";
 
-        Button startButton;
+        public int timeLeft { get; private set; } = 300;
 
-        Random random;
-
-        int timeLeft = 300;
-
-        private List<string> numericUpDownNames = new List<string>()
+        private List<string> numericUpDownNames { get; set; } = new List<string>()
             {
                 "sum", "difference", "product", "quotient"
             };
-        private List<string> operators = new List<string>()
+        private List<string> operators { get; set; } = new List<string>()
             {
                 "+", "-", "×", "÷"
             };
 
-        public teineVorm(int x, int y)
+        public MathQuiz(int x, int y)
         {
             this.Width = x;
             this.Height = y;
@@ -48,8 +50,6 @@ namespace WinFormsApp3
 
             numberLabels = new List<List<Label>>();
             numericUpDowns = new List<NumericUpDown>();
-
-
 
             lbl = new Label();
             lbl.Name = "timeLabel";
@@ -71,8 +71,6 @@ namespace WinFormsApp3
 
             for (int i = 0; i < 4; i++)
             {
-                List<Control> lst = new List<Control>();
-
                 Label firstNumber = new Label();
                 Label operatorLabel = new Label();
                 Label secondNumber = new Label();
@@ -99,11 +97,9 @@ namespace WinFormsApp3
                 SetDefaultParametrs(secondNumber);
                 SetDefaultParametrs(equalLabel, "=");
 
-                lst.Add(firstNumber);
-                lst.Add(operatorLabel);
-                lst.Add(secondNumber);
-                lst.Add(equalLabel);
-                lst.Add(numericUpDown);
+                List<Control> lst = new List<Control>() {
+                    firstNumber, operatorLabel, secondNumber, equalLabel, numericUpDown
+                    };
 
                 numericUpDown.Font = new Font("Arial", 18);
                 numericUpDown.MaximumSize = new Size(115, 100);

@@ -13,69 +13,28 @@ using System.Windows.Forms  ;
 
 
 
-namespace WinFormsApp3
+namespace KolmRakendust
 {
-    public partial class ZoomVorm: Form
+    public partial class PictureViewer : Form, IVorm
     {
-        TrackBar trackBar;
-        esimeneVorm pragueneVorm;
-        Bitmap bmp;
-        public ZoomVorm(esimeneVorm praeguneVorm)
-        {
-            this.pragueneVorm = praeguneVorm;
-            this.Text = "Zoom window";
-            this.Width = 240;
-            this.Height = 100;
-            this.FormBorderStyle = FormBorderStyle.Fixed3D;
-            this.MaximizeBox = false;
-            trackBar = new TrackBar();
-            this.trackBar.Size = new System.Drawing.Size(224, 45);
-            this.trackBar.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            this.Controls.Add(trackBar);
-            trackBar.Maximum = 100;
-            trackBar.Minimum = 1;
-            trackBar.SmallChange = 10;
-
-
-        }
-        private void trackBar1_Scroll(object sender, System.EventArgs e)
-        {
-            Console.WriteLine(trackBar.Value);
-            if (bmp == null) bmp = (Bitmap)pragueneVorm.pb.Image;
-            Size sz = bmp.Size;
-            Bitmap zoomed = (Bitmap)pragueneVorm.pb.Image;
-            
-
-            zoomed = new Bitmap((int)((sz.Width * trackBar.Value) / 100), (int)((sz.Height * trackBar.Value) / 100));
-            using (Graphics g = Graphics.FromImage(zoomed))
-            {
-                
-                g.PixelOffsetMode = PixelOffsetMode.Half;
-
-                g.DrawImage(bmp, new Rectangle(Point.Empty, zoomed.Size));
-            }
-
-            pragueneVorm.pb.Image = zoomed;
-            
-
-        }
+        public string Name { get; private set; } = "Picture viewer";
+        public TableLayoutPanel tlp{ get; set; } 
+        public PictureBox pb { get; set; }
+        public CheckBox cb { get; set; }
+        public FlowLayoutPanel flp { get; set; }
+        public Button btn { get; set; }
+        public Button btn2 { get; set; }
+        public Button btn3 { get; set; }
+        public Button btn4 { get; set; }
+        public Button btn5 { get; set; }
+        public OpenFileDialog ofd { get; set; }
+        public ColorDialog cd { get; set; }
+        public ZoomVorm? ZoomVorm { get; set; }
     }
 
-    public partial class esimeneVorm : Form
+    public partial class PictureViewer : Form, IVorm
     {
-        TableLayoutPanel tlp;
-        public PictureBox pb;
-        CheckBox cb;
-        FlowLayoutPanel flp;
-        Button btn;
-        Button btn2;
-        Button btn3;
-        Button btn4;
-        Button btn5;
-        OpenFileDialog ofd;
-        ColorDialog cd;
-        ZoomVorm zoomVorm;
-        public esimeneVorm(int x, int y)
+        public PictureViewer(int x, int y)
         {
             this.Width = x;
             this.Height = y;
@@ -120,7 +79,7 @@ namespace WinFormsApp3
                 button.AutoSize = true;
                 button.Text = texts[index];
                 button.Name = index == 0 ? "closeButton" : (index == 1 ? "backGroundButton" : (index == 2 ? "clearButton" : (index == 3 ? "showButton" : "zoomButton")));
-                button.Click += index == 0 ? closeButton : (index == 1 ? backgroundButton_Click : (index == 2 ? clearButton_Click : (index == 3 ? new EventHandler(showPicture) : new EventHandler(zoom_Click))));
+                button.Click += index == 0 ? (object? sender, EventArgs e) => {this.Close();} : (index == 1 ? backgroundButton_Click : (index == 2 ? clearButton_Click : (index == 3 ? new EventHandler(showPicture) : new EventHandler(zoom_Click))));
                 flp.Controls.Add(button);
                 
             }
@@ -135,13 +94,13 @@ namespace WinFormsApp3
             
         }
 
-        private void zoom_Click(object sender, EventArgs e)
+        private void zoom_Click(object? sender, EventArgs e)
         {
             
             if (pb.Image is not null)
             {
-                this.zoomVorm = new ZoomVorm(this);
-                this.zoomVorm.Show();
+                this.ZoomVorm = new ZoomVorm(this);
+                this.ZoomVorm.Show();
             }
             else
             {
@@ -150,29 +109,26 @@ namespace WinFormsApp3
 
             }
         }
-        private void showPicture(object sender, EventArgs e)
+        private void showPicture(object? sender, EventArgs e)
         {
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 pb.Load(ofd.FileName);
             }
         }
-        private void closeButton(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+
+        private void checkBox1_CheckedChanged(object? sender, EventArgs e)
         {
              if (cb.Checked)
                     pb.SizeMode = PictureBoxSizeMode.StretchImage;
              else
                     pb.SizeMode = PictureBoxSizeMode.Normal;
         }
-        private void clearButton_Click(object sender, EventArgs e)
+        private void clearButton_Click(object? sender, EventArgs e)
         {
             pb.Image = null;
         }
-        private void backgroundButton_Click(object sender, EventArgs e)
+        private void backgroundButton_Click(object? sender, EventArgs e)
         {
             if (cd.ShowDialog() == DialogResult.OK)
                 pb.BackColor = cd.Color;
