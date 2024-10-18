@@ -20,13 +20,14 @@ namespace KolmRakendust
         public NumericUpDown nud { get; set; } = new NumericUpDown();
         public Button startButton { get; set; }
         public Random random { get; set; } = new Random();
+        public Mode? CurrentMode { get; set; }
     }
 
     public partial class MathQuiz : Form, IVorm
     {
         public string VormName { get; set; } = "Math quiz";
 
-        public int timeLeft { get; private set; } = 300;
+        
 
         private List<string> numericUpDownNames { get; set; } = new List<string>()
             {
@@ -45,89 +46,9 @@ namespace KolmRakendust
             this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
 
-            int DistanceBetweenExamples = 45;
-            int ExampleY = DistanceBetweenExamples;
-
-            numberLabels = new List<List<Label>>();
-            numericUpDowns = new List<NumericUpDown>();
-
-            lbl = new Label();
-            lbl.Name = "timeLabel";
-            lbl.AutoSize = false;
-            lbl.BorderStyle = BorderStyle.FixedSingle;
-            lbl.Size = new Size(200, 30);
-            lbl.Text = "";
-            lbl.Font = new Font("Arial", 16);
-
-            lbl2 = new Label();
-            lbl2.Font = new Font("Arial", 16);
-            lbl2.Text = "Time Left";
-            lbl2.AutoSize = true;
-
-            lbl.Location = new Point(270, 0);
-            lbl2.Location = new Point(150, 0);
-            Controls.Add(lbl);
-            Controls.Add(lbl2);
-
-            for (int i = 0; i < 4; i++)
-            {
-                Label firstNumber = new Label();
-                Label operatorLabel = new Label();
-                Label secondNumber = new Label();
-                Label equalLabel = new Label();
-
-                NumericUpDown numericUpDown = new NumericUpDown();
-
-                firstNumber.Location = new Point(15 + 100, ExampleY + 10);
-                operatorLabel.Location = new Point(55 + 100, ExampleY);
-                secondNumber.Location = new Point(95 + 100, ExampleY + 10);
-                equalLabel.Location = new Point(135 + 100, ExampleY);
-                numericUpDown.Location = new Point(165 + 100, ExampleY + 5);
-
-                firstNumber.Name = "plusLeftLabel";
-                secondNumber.Name = "plusRightLabel";
-                numericUpDown.Name = numericUpDownNames[i];
-
-                numberLabels.Add(new List<Label>());
-                numberLabels[i].Add(firstNumber);
-                numberLabels[i].Add(secondNumber);
-
-                SetDefaultParametrs(firstNumber);
-                SetDefaultParametrs(operatorLabel, operators[i]);
-                SetDefaultParametrs(secondNumber);
-                SetDefaultParametrs(equalLabel, "=");
-
-                List<Control> lst = new List<Control>() {
-                    firstNumber, operatorLabel, secondNumber, equalLabel, numericUpDown
-                    };
-
-                numericUpDown.Font = new Font("Arial", 18);
-                numericUpDown.MaximumSize = new Size(115, 100);
-                numericUpDown.Minimum = -100;
-                numericUpDown.TabIndex = i + 1;
-                numericUpDowns.Add(numericUpDown);
-                
-
-                ExampleY += DistanceBetweenExamples;
-
-                foreach(var control in lst)
-                {
-                    Controls.Add(control);
-                }
-
-            }
-            startButton = new Button();
-            startButton.Name = "startButton";
-            startButton.Font = new Font("Arial", 14);
-            startButton.AutoSize = true;
-            startButton.TabIndex = 0;
-            startButton.Click += new EventHandler(StartTheQuiz);
-            startButton.Location = new Point(this.Width / 2 - startButton.Size.Width, this.Height - 100);
-            startButton.Text = "Start The Quiz";
-            Controls.Add(startButton);
-
-
+           
         }
+        
         public void SetDefaultParametrs(Label label)
         {
             label.Text = "?";
@@ -146,104 +67,44 @@ namespace KolmRakendust
         }
         public void StartTheQuiz(object? sender, EventArgs e)
         {
-            startButton.Enabled = false;
-            for (int i = 0; i < 4; i++)
+            if (this.CurrentMode is null) return;
+            if (this.CurrentMode == Mode.Default)
             {
-                random = new Random();
-                int addend1 = random.Next(1, 10);
-                int addend2 = random.Next(1, 10);
-                Console.WriteLine($"{i}. {addend1} - {addend2}");
 
-                numberLabels[i][0].Text = addend1.ToString();
-                numberLabels[i][1].Text = addend2.ToString();
+                startButton.Enabled = false;
+                for (int i = 0; i < 4; i++)
+                {
+                    random = new Random();
+                    int addend1 = random.Next(1, 10);
+                    int addend2 = random.Next(1, 10);
+                    Console.WriteLine($"{i}. {addend1} - {addend2}");
 
-                numericUpDowns[i].Value = 0;
+                    numberLabels[i][0].Text = addend1.ToString();
+                    numberLabels[i][1].Text = addend2.ToString();
 
+                    numericUpDowns[i].Value = 0;
+
+
+                }
+                lbl.Text = timeLeft.ToString();
+                timer1 = new System.Windows.Forms.Timer();
+                timer1.Tick += timer1_Tick;
+                timer1.Start();
+            }
+            else
+            {
 
             }
-            lbl.Text = timeLeft.ToString();
-            timer1 = new System.Windows.Forms.Timer();
-            timer1.Tick += timer1_Tick;
-            timer1.Start();
-
         }
 
-        private bool CheckTheAnswer()
+        private bool CheckTheAnswer(MathExample example, decimal answer)
         {
-            for (int i = 0; i < 4; i++)
+            if (example.Calculate() == answer)
             {
-                if (Calculate(int.Parse(numberLabels[i][0].Text), int.Parse(numberLabels[i][1].Text), numericUpDowns[i].Value, operators[i]))
-                {
-                    continue;
-                }
-                else
-                {
-                    return false;
-                }
-                
-            }
-            return true;
-        }
-
-        private bool Calculate(int x, int y, decimal answer, string op)
-        {
-            switch (op)
-            {
-                case "+":
-                    if (x + y == answer)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                case "-":
-                    if (x - y == answer)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                case "×":
-                    if (x * y == answer)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                case "÷":
-                    if (x / y == answer)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                return true;
             }
             return false;
         }
-        private decimal Calculate(int x, int y, string op)
-        {
-            switch (op)
-            {
-                case "+":
-                    return x + y;
-                case "-":
-                    return x - y;
-                case "×":
-                    return x * y;
-                case "÷":
-                    return x / y;
-            }
-            return 0;
-        }
-
 
         private void timer1_Tick(object? sender, EventArgs e)
         {
@@ -270,6 +131,30 @@ namespace KolmRakendust
                 }
                 startButton.Enabled = true;
             }
+        }
+        public MathExample GenerateRandomExample()
+        {
+            EOperator randOperator;
+            int y, x;
+            Array values = Enum.GetValues(typeof(EOperator));
+            randOperator = (EOperator)values.GetValue(random.Next(values.Length));
+
+            y = random.Next(1, 10);
+            x = random.Next(1, 15);
+            MathExample mathEx = new MathExample(x, y, new MathOperator(randOperator));
+            return mathEx;
+        }
+        public MathExample GenerateRandomExample(int start, int end)
+        {
+            EOperator randOperator;
+            int y, x;
+            Array values = Enum.GetValues(typeof(EOperator));
+            randOperator = (EOperator)values.GetValue(random.Next(values.Length));
+
+            y = random.Next(start, end);
+            x = random.Next(start, end);
+            MathExample mathEx = new MathExample(y, x, new MathOperator(randOperator));
+            return mathEx;
         }
 
     }
