@@ -100,6 +100,7 @@ namespace KolmRakendust
         private void Tree_AfterSelect(object? sender, TreeViewEventArgs e)
         {
             AllocConsole();
+            Console.WriteLine(123);
             if (e.Node is null) { return; }
             Console.WriteLine($"{e.Node.Text == "Nupp"}");
             switch (e?.Node.Text)
@@ -158,18 +159,18 @@ namespace KolmRakendust
 
         private void Txt_TextChanged(object? sender, EventArgs e)
         {
-            if (Lbl is null || Txt is null) { return;}
+            if (Lbl is null || Txt is null) { return; }
             Lbl.Text = Txt.Text;
         }
 
         private void Lbl_MouseLeave(object? sender, EventArgs e)
         {
-            if (Lbl is null) { return;}
+            if (Lbl is null) { return; }
             Lbl.Font = new Font("Arial", 30, FontStyle.Underline);
         }
         private void Lbl_MouseHover(object? sender, EventArgs e)
         {
-            if (Lbl is null) { return;}
+            if (Lbl is null) { return; }
             Lbl.Font = new Font("Arial", 32, FontStyle.Underline);
             Lbl.ForeColor = Color.FromArgb(70, 50, 150, 200);
 
@@ -179,8 +180,6 @@ namespace KolmRakendust
         {
             throw new NotImplementedException();
         }
-
-
 
         private void Chk_CheckedChanged(object? sender, EventArgs e)
         {
@@ -210,7 +209,5 @@ namespace KolmRakendust
         {
             MessageBox.Show(DGV.SelectedCells[0].Value.ToString());
         }
-
     }
-
 }

@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace KolmRakendust
 {
-    public enum Mode
+    public partial class MathQuizForm
     {
-        Default, Infinity
-    }
-    public enum EOperator
-    {
-        Addition, Subtraction, Division, Multiplication
+        
+
+        public void InfinityMode()
+        {
+            
+
+        }
     }
 }

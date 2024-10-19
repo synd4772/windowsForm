@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust
+namespace KolmRakendust.MathQuiz.Logic
 {
     public class MathExample
     {
@@ -12,24 +12,24 @@ namespace KolmRakendust
         public int Y { get; set; }
         public MathOperator Operator { get; set; }
         public MathExample(int X, int Y, MathOperator op)
-        { 
+        {
             this.X = X;
             this.Y = Y;
-            this.Operator = op;
+            Operator = op;
         }
         public MathExample() { }
         public decimal Calculate()
         {
-            switch (Operator.Operator)
+            switch (this.Operator.OperatorType)
             {
-                case EOperator.Addition:
-                    return this.X + this.Y;
-                case EOperator.Subtraction:
-                    return this.X - this.Y;
-                case EOperator.Multiplication:
-                    return this.X * this.Y;
-                case EOperator.Division:
-                    return this.X / this.Y;
+                case OperatorType.Addition:
+                    return X + Y;
+                case OperatorType.Subtraction:
+                    return X - Y;
+                case OperatorType.Multiplication:
+                    return X * Y;
+                case OperatorType.Division:
+                    return X / Y;
             }
             return 0;
         }

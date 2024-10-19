@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace KolmRakendust
 {
-    public partial class MathQuiz: Form, IVorm
+    public enum Mode
     {
-        
-
-        public void InfinityMode()
-        {
-            
-
-        }
+        Default, Infinity
     }
+
 }

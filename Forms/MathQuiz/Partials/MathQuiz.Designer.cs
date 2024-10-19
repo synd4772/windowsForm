@@ -1,6 +1,6 @@
 ﻿namespace KolmRakendust
 {
-    partial class MathQuiz
+    partial class MathQuizForm
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,6 @@
             // 
             // timer2
             // 
-            timer1.Tick += timer1_Tick;
             // 
             // teineVorm
             // 

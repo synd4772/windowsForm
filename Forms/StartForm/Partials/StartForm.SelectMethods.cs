@@ -9,9 +9,10 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+
 namespace KolmRakendust
 {
-    public partial class StartForm: Form
+    public partial class StartForm
     {
         private void NuppSelect()
         {
@@ -135,7 +136,6 @@ namespace KolmRakendust
             int y = 20;
             foreach (IVorm vorm in vormid)
             {
-                
                 RadioButton rdb = new RadioButton();
 
                 rdb.CheckedChanged += new EventHandler((object? sender, EventArgs e) =>
@@ -151,7 +151,6 @@ namespace KolmRakendust
                         CurrentVorm?.Close();
                         localVorm.Show();
                         CurrentVorm = localVorm;
-
                     }
                 });
                 

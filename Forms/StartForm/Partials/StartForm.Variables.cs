@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace KolmRakendust
 {
-    public partial class StartForm: Form
+    public partial class StartForm
     {
+
         public int ClickCount { get; set; } = 0;
         public int DoubleClickVar { get; set; } = 0;
         public TreeView Tree { get; set; } = new TreeView();
@@ -28,6 +29,10 @@ namespace KolmRakendust
         public DataSet DS { get; set; } = new DataSet();
         public Form? CurrentVorm { get; set; }
         public Random Rand{ get; set; } = new Random();
+
+        public PictureViewer Ev { get; set; } = new PictureViewer(800, 500);
+        public MathQuizForm Tv { get; set; } = new MathQuizForm(500, 400);
+        public Game Kv { get; set; } = new Game();
     }
 
 }
