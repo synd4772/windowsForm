@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using KolmRakendust.Forms.MathQuiz.Controls;
 
-
-namespace KolmRakendust.Forms.MathQuiz.Controls
+namespace KolmRakendust.Forms.PictureViewer.Controls
 {
     public partial class PictureOptions : UserControl
     {

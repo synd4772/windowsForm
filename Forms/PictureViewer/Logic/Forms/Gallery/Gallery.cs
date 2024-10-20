@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KolmRakendust.Forms.MathQuiz.Controls;
+using KolmRakendust.Forms.PictureViewer.Controls;
 
 namespace KolmRakendust
 {

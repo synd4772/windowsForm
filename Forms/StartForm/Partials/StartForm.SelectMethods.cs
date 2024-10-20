@@ -41,7 +41,7 @@ namespace KolmRakendust
             Pbox.Location = new Point(150, getFreeY(10));
             Pbox.SizeMode = PictureBoxSizeMode.Zoom;
             Pbox.TabIndex = 0;
-            Pbox.Image = Image.FromFile(@"..\..\..\images\zxc.jpg");
+            Pbox.Image = Image.FromFile(@"..\..\..\images\Assets\images\zxc.jpg");
             Pbox.DoubleClick += Pbox_DoubleClick;
             Controls.Add(Pbox);
         }
@@ -56,7 +56,7 @@ namespace KolmRakendust
 
             Chk2.Checked = false;
             // Chk2.Image = Image.FromFile(@"..\..\..\zxc.png");
-            Chk2.BackgroundImage = Image.FromFile(@"..\..\..\zxc.jpg");
+            Chk2.BackgroundImage = Image.FromFile(@"..\..\..\Assets\images\zxc.jpg");
             Chk2.BackgroundImageLayout = ImageLayout.Zoom;
             Chk2.Size = new Size(100, 100);
             Chk2.Location = new Point(150, getFreeY(10));
@@ -91,7 +91,7 @@ namespace KolmRakendust
         }
         private void LoeteluSelect()
         {
-            List<string> Rbtn_list = new List<string> { "Ьks", "Kaks", "Kolm" };
+            List<string> Rbtn_list = new List<string> { "Uks", "Kaks", "Kolm" };
             foreach (string item in Rbtn_list)
             {
                 Lb.Items.Add(item);
@@ -114,7 +114,7 @@ namespace KolmRakendust
         private void DataGridViewSelect()
         {
             DS = new DataSet("XML file");
-            DS.ReadXml(@"..\..\..\plant_catalog.xml");
+            DS.ReadXml(@"..\..\..\Assets\xml\plant_catalog.xml");
              
             DGV.Location = new Point(500, 400);
             DGV.DataSource = DS;

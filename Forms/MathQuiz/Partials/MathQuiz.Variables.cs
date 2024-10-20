@@ -27,7 +27,7 @@ namespace KolmRakendust
         public int BetweenExamplesY { get; } = 40; // IMathQuiz
         public int DMStartExampleY { get; } = 80; // IMathQuiz , DM - DefaultMode
         public int StartExampleX { get; } = 100; // IMathQuiz
-        public int DMTimerDuration { get; } = 50; // DM - DefaultMode
+        public int DMTimerDuration { get; } = 200; // DM - DefaultMode
 
         // MathQuiz.InfinityMode.cs
 
