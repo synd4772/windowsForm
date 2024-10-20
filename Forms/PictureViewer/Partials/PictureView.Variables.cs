@@ -10,6 +10,7 @@ namespace KolmRakendust
 {
     public partial class PictureViewer : Form, IVorm
     {
+        private bool GalleryIsOpen { get; set; }
         public string VormName { get; set; } = "Picture viewer";
         public List<string> FileNames { get; set; } = new List<string>();
         public TableLayoutPanel tlp{ get; set; } 

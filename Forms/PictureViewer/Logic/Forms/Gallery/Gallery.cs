@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KolmRakendust.Core.Controls;
 
 namespace KolmRakendust
 {
@@ -19,10 +20,28 @@ namespace KolmRakendust
 
         public void Render()
         {
-            List<GPictureBox> pictureBoxes = this.GetPictureBoxes();
+            Panel scrollablePanel = new Panel
+            {
+                AutoScroll = true,
+                Dock = DockStyle.Fill
+            };
+
+            List<PictureOptions> pictureBoxes = this.GetPictureBoxes();
             int currentX = StartX;
             int currentY = StartY;
-            foreach(GPictureBox pbox in pictureBoxes)
+            if (pictureBoxes.Count == 0)
+            {
+                Label label = new Label();
+                label.Font = new Font("Arial", 18);
+
+                label.Size = new Size(scrollablePanel.Width, scrollablePanel.Height);
+                label.TextAlign = ContentAlignment.MiddleCenter;
+                label.Text = "nothing :(";
+                scrollablePanel.Controls.Add(label);
+                this.Controls.Add(scrollablePanel);
+                return;
+            }
+            foreach(PictureOptions pbox in pictureBoxes)
             {
 
                 if (currentX >= StartX + ((BetweenPicturesX + MaxWidth) * MaxPicturesInRow)){
@@ -31,34 +50,33 @@ namespace KolmRakendust
                 }
                 pbox.Location = new Point(currentX, currentY);
                 currentX += BetweenPicturesX + MaxWidth;
-               this.Controls.Add(pbox);
+               scrollablePanel.Controls.Add(pbox);
             }
+            this.Controls.Add(scrollablePanel);
         }
 
-        public List<GPictureBox> GetPictureBoxes()
+        public List<PictureOptions> GetPictureBoxes()
         {
-            List<GPictureBox> pictureBoxes = new List<GPictureBox>();
+            
+            List<PictureOptions> pictureBoxes = new List<PictureOptions>();
             foreach(string fileName in this.FileNames)
             {
-                GPictureBox pbox = new GPictureBox();
-                pbox.BorderStyle = BorderStyle.FixedSingle;
-                
-                pbox.Size = new Size(MaxWidth, MaxHeight);
-                pbox.Load(fileName);
-                pbox.SizeMode = PictureBoxSizeMode.StretchImage;
-                pbox.FileName = fileName;
+                PictureOptions pbox = new PictureOptions(fileName, MaxWidth, MaxHeight, this);
+                pbox.PictureBox.DoubleClick += picture_DobleClick;
                 pictureBoxes.Add(pbox);
-                pbox.DoubleClick += new EventHandler(picture_DobleClick);
-               
+
             }
             return pictureBoxes;
         }
-        private void picture_DobleClick(object? sender, EventArgs e)
+
+        public void picture_DobleClick(object? sender, EventArgs e)
         {
             GPictureBox? pbox = sender as GPictureBox;
             if(pbox is null) return;
             this.PictureViewerForm.pb.Load(pbox.FileName);
             this.Close();
         }
+
+
     }
 }

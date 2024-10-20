@@ -16,11 +16,27 @@ namespace KolmRakendust.MathQuiz.Logic
         public int Y { get{ return _y; } set{ _y = value; YLabel.Text = value.ToString(); } }
         public MathOperator Operator { get{ return _operator; } set{ _operator = value; OperatorLabel.Text = _operator.OperatorChar; } }
 
-        public Label XLabel { get; set; } = new Label();
-        public Label YLabel { get; set; } = new Label();
-        public Label OperatorLabel { get; set; } = new Label();
+        public Label XLabel { get; set; } = new Label 
+        {
+            Name = "FirstNumber"
+        };
+        public Label YLabel { get; set; } = new Label 
+        { 
+            Name = "SecondNumber"
+        };
+        public Label OperatorLabel { get; set; } = new Label
+        {
+            Name = "Operator"
+        };
 
-        public NumericUpDown NUD { get; set; } = new NumericUpDown();
+        public NumericUpDown NUD { get; set; } = new NumericUpDown
+        {
+            Name = "Answer",
+            DecimalPlaces = 2,
+            Maximum = 1000,
+            Minimum = -1000,
+            Value = 0
+        };
 
         public void ClearControls(Form form)
         {
@@ -35,17 +51,10 @@ namespace KolmRakendust.MathQuiz.Logic
             this.X = X;
             this.Y = Y;
             Operator = op;
-
-            XLabel.Name = "FirstNumber";
-            YLabel.Name = "SecondNumber";
-            OperatorLabel.Name = "Operator";
-            NUD.Name = "Answer";
-            NUD.DecimalPlaces = 2;
-            NUD.Maximum = 1000;
-            NUD.Minimum = -1000;
-
         }
+
         public MathExample() { }
+
         public decimal Calculate()
         {
             switch (this.Operator.Operator)
@@ -57,7 +66,7 @@ namespace KolmRakendust.MathQuiz.Logic
                 case OperatorType.Multiplication:
                     return X * Y;
                 case OperatorType.Division:
-                    return X / Y;
+                    return (decimal)X / (decimal)Y;
             }
             return 0;
         }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust
+namespace KolmRakendust.Core.Controls
 {
-    public class GPictureBox: PictureBox
+    public class GPictureBox : PictureBox
     {
         public string? FileName { get; set; }
     }

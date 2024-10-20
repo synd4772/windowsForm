@@ -148,7 +148,7 @@ namespace KolmRakendust
 
                     if (rb.Checked)
                     {
-                        CurrentVorm?.Close();
+                        CurrentVorm?.Dispose();
                         Console.WriteLine((localVorm as IVorm).VormName);
                         localVorm.Show();
                         CurrentVorm = localVorm;

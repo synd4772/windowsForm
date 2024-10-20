@@ -85,9 +85,17 @@ namespace KolmRakendust
 
         private void gallery_Click(object? sender, EventArgs e)
         {
+            if (this.GalleryIsOpen)
+            {
+                this.GalleryForm.Dispose();
+            }
             this.GalleryForm = new Gallery(this, this.FileNames);
+            
+            this.GalleryIsOpen = true;
             this.GalleryForm.Show();
             this.GalleryForm.Render();
+
+
         }
 
         private void zoom_Click(object? sender, EventArgs e)
@@ -110,7 +118,16 @@ namespace KolmRakendust
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 pb.Load(ofd.FileName);
-                this.FileNames.Add(ofd.FileName);
+                if (!FileNames.Contains(ofd.FileName))
+                {
+                    this.FileNames.Add(ofd.FileName);
+                }
+                if (this.GalleryIsOpen)
+                {
+                    this.GalleryForm.Controls.Clear();
+                    this.GalleryForm.Render();
+                }
+                
             }
         }
 

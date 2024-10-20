@@ -1,4 +1,5 @@
-﻿using KolmRakendust.MathQuiz.Logic;
+﻿using KolmRakendust.Core.Controls;
+using KolmRakendust.MathQuiz.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,10 +136,17 @@ namespace KolmRakendust
         public void IMEnd()
         {
             MQButton? nextButton = this.Controls.Find("NextButton", false)[0] as MQButton;
-            if (nextButton is not null)
-            {
-                nextButton.Enabled = false;
+            MQButton? button = this.Controls.Find("DynamicalButton", false)[0] as MQButton;
+            
+            if (nextButton is not null) nextButton.Enabled = false;
+
+            if (button is not null){
+                button.State = EMQ.ButtonState.Leave;
+                button.Text = "Leave";
             }
+            
+
+
             if(this.Timer is not null) this.Timer.Stop();
             TimeLeft = 0;
         }

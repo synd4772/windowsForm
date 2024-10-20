@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using KolmRakendust.Core.Enums.MathQuiz;
 
-namespace KolmRakendust
+namespace KolmRakendust.Core.Controls
 {
-    public class MQButton: Button
+    public class MQButton : Button
     {
-        public Core.Enums.MathQuiz.ButtonState State { get; set; }
+        public Enums.MathQuiz.ButtonState State { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using KolmRakendust.MathQuiz.Logic;
 using KolmRakendust.Core.Enums.MathQuiz;
 using EMQ = KolmRakendust.Core.Enums.MathQuiz;
+using KolmRakendust.Core.Controls;
 
 namespace KolmRakendust
 {

@@ -8,6 +8,7 @@ namespace KolmRakendust
 {
     public partial class Gallery
     {
+        
         public PictureViewer PictureViewerForm { get; set; }
         public List<string> FileNames { get; set; }
         

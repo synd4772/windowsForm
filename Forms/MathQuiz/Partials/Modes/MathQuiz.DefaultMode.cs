@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Accessibility;
+using KolmRakendust.Core.Controls;
 using KolmRakendust.MathQuiz.Logic;
 using EMQ = KolmRakendust.Core.Enums.MathQuiz;
 
