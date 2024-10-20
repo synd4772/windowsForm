@@ -18,8 +18,7 @@ namespace KolmRakendust
     public partial class PictureViewer : Form, IVorm
     {
         public PictureViewer(int x, int y)
-        {
-            this.GalleryForm = new Gallery(this);
+        { 
 
             this.Width = x;
             this.Height = y;
@@ -86,7 +85,9 @@ namespace KolmRakendust
 
         private void gallery_Click(object? sender, EventArgs e)
         {
+            this.GalleryForm = new Gallery(this, this.FileNames);
             this.GalleryForm.Show();
+            this.GalleryForm.Render();
         }
 
         private void zoom_Click(object? sender, EventArgs e)
@@ -109,6 +110,7 @@ namespace KolmRakendust
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 pb.Load(ofd.FileName);
+                this.FileNames.Add(ofd.FileName);
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿using KolmRakendust.Core.Interfaces;
-using KolmRakendust.Forms.PictureViewer.Logic.Forms.Gallery;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,7 @@ namespace KolmRakendust
     public partial class PictureViewer : Form, IVorm
     {
         public string VormName { get; set; } = "Picture viewer";
+        public List<string> FileNames { get; set; } = new List<string>();
         public TableLayoutPanel tlp{ get; set; } 
         public PictureBox pb { get; set; }
         public CheckBox cb { get; set; }
