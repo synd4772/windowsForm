@@ -16,7 +16,6 @@ namespace KolmRakendust
         public List<MathExample> CurrentExamples { get; set; } = new List<MathExample>();
         private System.Windows.Forms.Timer? Timer { get; set; }
         public Label TimeLeftLabel { get; set; } = new Label();
-
         public int TimeLeft { get; set; } = 0;
           
         // MathQuiz.MainMenu.cs
@@ -24,14 +23,11 @@ namespace KolmRakendust
         public Button DefaultModeButton { get; set; } = new Button();
 
         // MathQuiz.DefaultMode.cs
-        public int BetweenControlsX { get; set; } = 40; // IMathQuiz
-        public int BetweenExamplesY { get; set; } = 40; // IMathQuiz
-        public int DMStartExampleY { get; set; } = 80; // IMathQuiz , DM - DefaultMode
-        public int StartExampleX { get; set; } = 100; // IMathQuiz
-
-
-        public int DMTimerDuration { get; private set; } = 50; // DM - DefaultMode
-
+        public int BetweenControlsX { get; } = 40; // IMathQuiz
+        public int BetweenExamplesY { get; } = 40; // IMathQuiz
+        public int DMStartExampleY { get; } = 80; // IMathQuiz , DM - DefaultMode
+        public int StartExampleX { get; } = 100; // IMathQuiz
+        public int DMTimerDuration { get; } = 50; // DM - DefaultMode
 
         // MathQuiz.InfinityMode.cs
 

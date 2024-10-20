@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using KolmRakendust.MathQuiz.Logic;
 using KolmRakendust.Core.Enums.MathQuiz;
 using EMQ = KolmRakendust.Core.Enums.MathQuiz;
-using KolmRakendust.Core.Controls;
+using KolmRakendust.Forms.MathQuiz.Controls;
 
 namespace KolmRakendust
 {
@@ -75,7 +75,6 @@ namespace KolmRakendust
                 this.CurrentExamples.Clear();
                 TimeLeftLabel = new Label();
                 Timer = new System.Windows.Forms.Timer();
-                return;
             }
         }
         public void ShowAnswers()

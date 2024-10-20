@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust.Core.Controls
+namespace KolmRakendust.Forms.MathQuiz.Controls
 {
     public class GPictureBox : PictureBox
     {

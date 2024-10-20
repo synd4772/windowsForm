@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace KolmRakendust.Core.Controls
+namespace KolmRakendust.Forms.MathQuiz.Controls
 {
-    public partial class PictureOptions: UserControl
+    public partial class PictureOptions : UserControl
     {
         public GPictureBox PictureBox { get; set; }
         public ContextMenuStrip ContextMenu { get; set; }
@@ -19,14 +19,15 @@ namespace KolmRakendust.Core.Controls
         private Gallery GalleryForm { get; set; }
         public PictureOptions(string fileName, int width, int height, Gallery gallery)
         {
-            this.GalleryForm = gallery;
-            this.Width = width;
-            this.Height = height;
-            PictureBox = new GPictureBox { 
+            GalleryForm = gallery;
+            Width = width;
+            Height = height;
+            PictureBox = new GPictureBox
+            {
                 FileName = fileName,
-                Size = new Size(this.Width, this.Height),
+                Size = new Size(Width, Height),
                 SizeMode = PictureBoxSizeMode.StretchImage
-                };
+            };
 
             ContextMenu = new ContextMenuStrip();
             PictureBox.Load(PictureBox.FileName);
@@ -36,7 +37,7 @@ namespace KolmRakendust.Core.Controls
 
             ContextMenu.Items.AddRange(new ToolStripMenuItem[]
             {
-                option1, option2, 
+                option1, option2,
             });
             ContextMenu.Items.Add(new ToolStripSeparator());
             ContextMenu.Items.Add(option3);
@@ -45,11 +46,11 @@ namespace KolmRakendust.Core.Controls
             OptionsButton.Size = new Size(20, 20);
             OptionsButton.Location = new Point(PictureBox.Width - OptionsButton.Width, 0);
             OptionsButton.TextAlign = ContentAlignment.MiddleCenter;
-            
+
             OptionsButton.Click += new EventHandler(optionsButton_Click);
-            this.Controls.Add(OptionsButton);
-            this.Controls.Add(PictureBox);
-  
+            Controls.Add(OptionsButton);
+            Controls.Add(PictureBox);
+
         }
         private void DeleteOption(object? sender, EventArgs e)
         {
@@ -57,14 +58,14 @@ namespace KolmRakendust.Core.Controls
             GalleryForm.PictureViewerForm.FileNames.Remove(PictureBox.FileName);
             GalleryForm.Controls.Clear();
             GalleryForm.Render();
-            this.Dispose();
-           
+            Dispose();
+
         }
         private void ChooseOption(object? sender, EventArgs e)
         {
-            GalleryForm.picture_DobleClick(PictureBox ,e);
+            GalleryForm.picture_DobleClick(PictureBox, e);
         }
-        private void CloseOption (object? sender, EventArgs e)
+        private void CloseOption(object? sender, EventArgs e)
         {
             return;
         }

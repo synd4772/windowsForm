@@ -1,4 +1,4 @@
-﻿using KolmRakendust.Core.Controls;
+﻿using KolmRakendust.Forms.MathQuiz.Controls;
 using KolmRakendust.MathQuiz.Logic;
 using System;
 using System.Collections.Generic;

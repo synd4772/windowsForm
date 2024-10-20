@@ -8,9 +8,9 @@ namespace KolmRakendust.Core.Interfaces
 {
     public interface IMathQuiz
     {
-        public int BetweenControlsX { get; set; }
-        public int DMStartExampleY { get; set; }
-        public int StartExampleX { get; set; }
-        public int BetweenExamplesY { get; set; }
+        int BetweenControlsX { get; }
+        int DMStartExampleY { get; }
+        int StartExampleX { get; }
+        int BetweenExamplesY { get; }
     }
 }
