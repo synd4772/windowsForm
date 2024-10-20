@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-
+using KolmRakendust.Core.Interfaces;
 
 namespace KolmRakendust
 {
@@ -149,6 +149,7 @@ namespace KolmRakendust
                     if (rb.Checked)
                     {
                         CurrentVorm?.Close();
+                        Console.WriteLine((localVorm as IVorm).VormName);
                         localVorm.Show();
                         CurrentVorm = localVorm;
                     }

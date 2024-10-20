@@ -9,11 +9,18 @@ using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 using KolmRakendust.MathQuiz.Logic;
+using KolmRakendust.Core.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace KolmRakendust
 {
-    public partial class MathQuizForm : Form, IVorm
+
+    public partial class MathQuizForm : Form, IVorm, IMathQuiz
     {
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
+
         public MathQuizForm(int x, int y)
         {
             this.Width = x;

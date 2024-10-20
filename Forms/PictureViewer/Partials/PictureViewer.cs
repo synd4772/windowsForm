@@ -10,30 +10,17 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using KolmRakendust.Core.Interfaces;
 
 namespace KolmRakendust
 {
-    public partial class PictureViewer : Form, IVorm
-    {
-        public string VormName { get; set; } = "Picture viewer";
-        public TableLayoutPanel tlp{ get; set; } 
-        public PictureBox pb { get; set; }
-        public CheckBox cb { get; set; }
-        public FlowLayoutPanel flp { get; set; }
-        public Button btn { get; set; }
-        public Button btn2 { get; set; }
-        public Button btn3 { get; set; }
-        public Button btn4 { get; set; }
-        public Button btn5 { get; set; }
-        public OpenFileDialog ofd { get; set; }
-        public ColorDialog cd { get; set; }
-        public ZoomVorm? ZoomVorm { get; set; }
-    }
-
+    
     public partial class PictureViewer : Form, IVorm
     {
         public PictureViewer(int x, int y)
         {
+            this.GalleryForm = new Gallery(this);
+
             this.Width = x;
             this.Height = y;
 
@@ -67,8 +54,9 @@ namespace KolmRakendust
             btn3 = new Button();
             btn4 = new Button();
             btn5 = new Button();
-            List<Button> buttons = new List<Button>() { btn, btn2, btn3, btn4, btn5 };
-            string[] texts = { "Close", "Set the background color", "Clear the picture", "Show a picture", "Zoom" };
+            btn6 = new Button();
+            List<Button> buttons = new List<Button>() { btn, btn2, btn3, btn4, btn5, btn6 };
+            string[] texts = { "Close", "Set the background color", "Clear the picture", "Show a picture", "Zoom", "Gallery" };
             int index = -1;
             foreach(var button in buttons)
             {
@@ -76,8 +64,12 @@ namespace KolmRakendust
 
                 button.AutoSize = true;
                 button.Text = texts[index];
-                button.Name = index == 0 ? "closeButton" : (index == 1 ? "backGroundButton" : (index == 2 ? "clearButton" : (index == 3 ? "showButton" : "zoomButton")));
-                button.Click += index == 0 ? (object? sender, EventArgs e) => {this.Close();} : (index == 1 ? backgroundButton_Click : (index == 2 ? clearButton_Click : (index == 3 ? new EventHandler(showPicture) : new EventHandler(zoom_Click))));
+                button.Name = index == 0 ? "closeButton" : (index == 1 ? "backGroundButton" : (index == 2 ? "clearButton" : (index == 3 ? "showButton" : (index == 4 ? "zoomButton" : "galleryButton"))));
+                button.Click += index == 0 ? (object? sender, EventArgs e) => {this.Close();} : (index == 1 ? backgroundButton_Click :
+                    (index == 2 ? clearButton_Click :
+                    (index == 3 ? new EventHandler(showPicture) :
+                    (index == 4 ? new EventHandler(zoom_Click) :
+                    new EventHandler(gallery_Click)))));
                 flp.Controls.Add(button);
                 
             }
@@ -90,6 +82,11 @@ namespace KolmRakendust
             this.tlp.Controls.Add(flp);
             this.Controls.Add(this.tlp);
             
+        }
+
+        private void gallery_Click(object? sender, EventArgs e)
+        {
+            this.GalleryForm.Show();
         }
 
         private void zoom_Click(object? sender, EventArgs e)

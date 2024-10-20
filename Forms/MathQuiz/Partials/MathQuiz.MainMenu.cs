@@ -31,12 +31,13 @@ namespace KolmRakendust
             this.DefaultModeButton.Name = "DefaultMode";
             this.DefaultModeButton.BackColor = Color.Green;
             this.DefaultModeButton.Location = new Point((this.Width / 2) - (this.DefaultModeButton.Width / 2) - 100, (this.Height / 2) + 20);
+            this.DefaultModeButton.TextAlign = ContentAlignment.MiddleCenter;
 
             this.InfinityModeButton.Text = "Infinity mode";
             this.InfinityModeButton.Name = "InfinityMode";
             this.InfinityModeButton.BackColor = Color.Red;
             this.InfinityModeButton.Location = new Point((this.Width / 2) - (this.InfinityModeButton.Width / 2) + 100, (this.Height / 2) + 20);
-
+            this.InfinityModeButton.TextAlign = ContentAlignment.MiddleCenter;
             this.Controls.Add(header);
         }
         public void ChooseForm(object? sender, EventArgs e)
@@ -47,11 +48,13 @@ namespace KolmRakendust
             if (button.Name == "DefaultMode")
             {
                 this.Controls.Clear();
+                this.CurrentMode = Core.Enums.MathQuiz.Mode.Default;
                 this.DefaultMode();
             }
             else
             {
                 this.Controls.Clear();
+                this.CurrentMode = Core.Enums.MathQuiz.Mode.Infinity;
                 this.InfinityMode();
             }
         }

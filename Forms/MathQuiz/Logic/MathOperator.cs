@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
+using KolmRakendust.Core.Enums.MathQuiz;
 
 namespace KolmRakendust.MathQuiz.Logic
 {
     public class MathOperator
     {
         public string? OperatorChar { get; set; }
-        public OperatorType OperatorType { get { return OperatorType; } set { OperatorType = value; OperatorChar = GetOperatorChar(value); } }
+        private OperatorType _operator;
+        public OperatorType Operator{ get { return _operator; } set { _operator = value; OperatorChar = GetOperatorChar(value); } }
         public MathOperator(OperatorType op)
         {
-            OperatorType = op;
+            Operator = op;
         }
         private string GetOperatorChar(OperatorType op)
         {

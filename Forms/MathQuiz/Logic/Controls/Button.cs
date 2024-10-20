@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KolmRakendust.Core.Enums.MathQuiz;
 
 namespace KolmRakendust
 {
-    public enum OperatorType
+    public class MQButton: Button
     {
-        Addition, Subtraction, Division, Multiplication
+        public Core.Enums.MathQuiz.ButtonState State { get; set; }
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust.Core.Interfaces
+namespace KolmRakendust.Forms.PictureViewer.Logic.Forms.Gallery
 {
-    public interface IVorm
+    public partial class Gallery
     {
-        public string VormName { get; set; }
+
     }
 }

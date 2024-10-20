@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust.Core.Interfaces
+namespace KolmRakendust.Core.Enums.MathQuiz
 {
-    public interface IVorm
+    public enum Mode
     {
-        public string VormName { get; set; }
+        Default, Infinity
     }
+
 }

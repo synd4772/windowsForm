@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust
+namespace KolmRakendust.Core.Enums.MathQuiz
 {
-    public enum Mode
+    public enum ButtonState
     {
-        Default, Infinity
+        Start, InProcces, Leave, Next
     }
-
 }

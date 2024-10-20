@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust.Core.Interfaces
+namespace KolmRakendust.Core.Enums.MathQuiz
 {
-    public interface IVorm
+    public enum OperatorType
     {
-        public string VormName { get; set; }
+        Addition, Subtraction, Division, Multiplication
     }
 }
