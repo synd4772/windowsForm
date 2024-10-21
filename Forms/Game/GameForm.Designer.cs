@@ -1,6 +1,6 @@
 ﻿namespace KolmRakendust
 {
-    partial class Game
+    partial class GameForm
     {
         /// <summary>
         /// Required designer variable.

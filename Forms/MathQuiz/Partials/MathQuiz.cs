@@ -17,10 +17,6 @@ namespace KolmRakendust
 
     public partial class MathQuizForm : Form, IVorm, IMathQuiz
     {
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
-
         public MathQuizForm(int x, int y)
         {
             this.Width = x;

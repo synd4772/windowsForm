@@ -10,12 +10,12 @@ using KolmRakendust.Forms.Game.Logic;
 
 namespace KolmRakendust
 {
-    public partial class Game : Form, IVorm
+    public partial class GameForm : Form, IVorm
     {
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
-        public UserManagment UM { get; set; } = new UserManagment();
+        public DataManagment UM { get; set; } = new DataManagment();
         public TableLayoutPanel Tlp { get; set; } = new TableLayoutPanel();
         public List<List<Label>> ColumnsAndRows { get; set; } = [];
         private Random random { get; set; } = new Random();
@@ -30,8 +30,9 @@ namespace KolmRakendust
         public bool next { get; set; } = false;
         public string VormName { get;set; } = "Game";
         public int CurrentTime { get; set; } = 0;
+        public Game CurrentGame { get; set; }
 
-        public Game()
+        public GameForm()
         {
             this.Text = "Login form";
             this.ClientSize = new Size(550, 550);
@@ -53,7 +54,7 @@ namespace KolmRakendust
 
         public void MenuRender()
         {
-            Menu menu = new Menu(CurrentUser);
+            Menu menu = new Menu(CurrentUser, UM);
             this.Text = "General";
             menu.onStartGame += StartGame;
             menu.Location = new Point(this.ClientSize.Width / 2 - menu.Width / 2, this.ClientSize.Height / 2 - menu.Height / 2);
@@ -64,7 +65,12 @@ namespace KolmRakendust
         {
             this.Controls.Clear();
             this.Text = "Matching Game";
-            
+
+            CurrentGame = new Game(CurrentUser);
+            CurrentGame.OnMistakes += this.onMistake;
+            UM.AddGame(CurrentGame);
+            CurrentGame = UM.GetGameByTime(CurrentGame.CurrentTime);
+
 
             timer1 = new System.Windows.Forms.Timer();
             timer1.Interval = 1000;
@@ -114,7 +120,14 @@ namespace KolmRakendust
                 Name = "TimerLabel"
             };
             Tlp.Controls.Add(lbl);
-
+            Label lbl2 = new Label()
+            {
+                Text = $"Mistakes: {CurrentGame.Mistakes}",
+                Font = new Font("Arial", 17),
+                Size = new Size(150, 50),
+                Name = "MistakesLabel"
+            };
+            Tlp.Controls.Add(lbl2);
 
             this.Controls.Add(Tlp);
         }
@@ -157,15 +170,23 @@ namespace KolmRakendust
             }
             else
             {
+                CurrentGame.Mistakes++;
                 this.next = true;
             }
 
 
         }
-
+        private void onMistake()
+        {
+            Label? label = Tlp.Controls.Find("MistakesLabel", false)[0] as Label;
+            if (label is null) return;
+            label.Text = $"Mistakes: {CurrentGame.Mistakes}";
+        }
         private void timer1_Tick(object? sender, EventArgs e)
         {
             this.CurrentTime++;
+            CurrentGame.Time = this.CurrentTime;
+
             Label? label = Tlp.Controls.Find("TimerLabel", false)[0] as Label;
             if (label is not null) label.Text = $"Time: {CurrentTime}";
         }
@@ -182,12 +203,7 @@ namespace KolmRakendust
                         return;
                 }
             }
-            
-            if (this.CurrentTime < CurrentUser.Score || CurrentUser.Score == 0)
-            {
-                CurrentUser.Score = this.CurrentTime;
-                UM.UpdateFile();
-            }
+
             Tlp = new TableLayoutPanel();
             ColumnsAndRows  = [];
             icons =
@@ -198,6 +214,7 @@ namespace KolmRakendust
             timer1.Stop();
             this.Controls.Clear();
             this.MenuRender();
+            UM.UpdateGamesFile();
             MessageBox.Show($"You matched all the icons! Your time is {CurrentTime}!", "Congratulations");
             this.CurrentTime = 0;
 

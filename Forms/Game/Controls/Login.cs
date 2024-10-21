@@ -19,7 +19,7 @@ namespace KolmRakendust.Forms.Game.Controls
         static extern bool AllocConsole();
 
         public EventHandler SuccesfulSubmit { get; set; }
-        private UserManagment UM { get; set;}
+        private DataManagment UM { get; set;}
         public const int UserControlWidth = 400;
         public const int UserControlHeight = 400;
         public TextBox UserNameInput { get; set; } = new TextBox 
@@ -37,7 +37,7 @@ namespace KolmRakendust.Forms.Game.Controls
             PlaceholderText = "Type your password"
         };
 
-        public Login(UserManagment um)
+        public Login(DataManagment um)
         {
 
             this.UM = um;
@@ -92,6 +92,7 @@ namespace KolmRakendust.Forms.Game.Controls
                 }
                 else
                 {
+                    Console.Write($"{user.Password} != {PasswordInput.Text}");
                     MessageBox.Show("Wrong password!", "Login form");
                 }
             }
@@ -103,7 +104,7 @@ namespace KolmRakendust.Forms.Game.Controls
                     return;
                 }
 
-                User newUser = new User(UserNameInput.Text, PasswordInput.Text, 0);
+                User newUser = new User(UserNameInput.Text, PasswordInput.Text);
                 UM.AddUser(newUser);
                 
                 OnSuccesfulSubmit(newUser);

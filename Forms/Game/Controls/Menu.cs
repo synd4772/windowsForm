@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KolmRakendust.Forms.Game.Logic;
+using gamePath = KolmRakendust.Forms.Game.Logic;
 
 namespace KolmRakendust.Forms.Game.Controls
 {
@@ -27,9 +28,9 @@ namespace KolmRakendust.Forms.Game.Controls
         };
         public User CurrentUser { get; set; }
 
-        public int FormWidth { get; } = 450;
+        public int FormWidth { get; } = 480;
         public int FormHeight { get; } = 450;
-        public Menu(User user)
+        public Menu(User user, DataManagment dm)
         {
             this.Size = new Size(FormWidth, FormHeight);
 
@@ -44,14 +45,17 @@ namespace KolmRakendust.Forms.Game.Controls
                 Size = new Size(150, 50)
             };
             welcomeLabel.Location = new Point(0, 0);
-            
+
+            gamePath.Game? bestUserGame = dm.GetBestGame(user);
+
             Label scoreLabel = new Label
             {
-                Text = $"Your best time: {user.Score} seconds",
+                Text = $"Your best game: {(bestUserGame is not null ? $"{bestUserGame.Time} seconds, {bestUserGame.Mistakes} mistakes." : "nothing")}",
                 Font = new Font("Arial", 18),
-                Size = new Size(450, 50)
+                Size = new Size(480, 50)
             };
             scoreLabel.Location = new Point(0, 50);
+           
             
             foreach(Control control in new List<Control>() { SettingsButton, StartGameButton, welcomeLabel, scoreLabel})
             {

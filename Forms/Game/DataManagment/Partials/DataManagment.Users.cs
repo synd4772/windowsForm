@@ -1,28 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace KolmRakendust.Forms.Game.Logic
 {
-    public class UserManagment
+    public partial class DataManagment
     {
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
-        public string FilePath { get; set; } = @"../../../Forms/Game/users.txt";
-        public List<User> CurrentUsers { get; set; }
-        public UserManagment()
-        {
-            this.CurrentUsers = GetCurrentUsersFromFile();
-        }
         public List<User> GetCurrentUsersFromFile()
         {
             List<User> users = new List<User>();
-            using(StreamReader reader = new StreamReader(FilePath))
+            using (StreamReader reader = new StreamReader(UsersFilePath))
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -36,18 +25,18 @@ namespace KolmRakendust.Forms.Game.Logic
         }
         public void AddUser(User user)
         {
-            using(StreamWriter writer = new StreamWriter(FilePath, true))
+            using (StreamWriter writer = new StreamWriter(UsersFilePath, true))
             {
                 writer.Write($"\n{user.ToString()}");
             }
             this.CurrentUsers = GetCurrentUsersFromFile();
         }
-        public void UpdateFile()
+        public void UpdateUsersFile()
         {
             int index = -1;
-            using(StreamWriter writer = new StreamWriter(FilePath))
+            using (StreamWriter writer = new StreamWriter(UsersFilePath))
             {
-                foreach(User user in CurrentUsers)
+                foreach (User user in CurrentUsers)
                 {
                     index++;
                     Console.WriteLine($"{user}{(index + 1 == CurrentUsers.Count ? "\n" : "")}");
@@ -58,7 +47,7 @@ namespace KolmRakendust.Forms.Game.Logic
 
         public bool FindUser(User fUser)
         {
-            foreach(User user in CurrentUsers)
+            foreach (User user in CurrentUsers)
             {
                 if (fUser == user)
                 {
@@ -69,7 +58,7 @@ namespace KolmRakendust.Forms.Game.Logic
         }
         public bool FindUser(string name)
         {
-            foreach(User user in CurrentUsers)
+            foreach (User user in CurrentUsers)
             {
                 if (user.Username == name)
                 {
@@ -80,7 +69,7 @@ namespace KolmRakendust.Forms.Game.Logic
         }
         public User? GetUserByName(string name)
         {
-            foreach(User user in CurrentUsers)
+            foreach (User user in CurrentUsers)
             {
                 if (user.Username == name)
                 {

@@ -32,7 +32,7 @@ namespace KolmRakendust
 
         public PictureViewer Ev { get; set; } = new PictureViewer(800, 500);
         public MathQuizForm Tv { get; set; } = new MathQuizForm(500, 400);
-        public Game Kv { get; set; } = new Game();
+        public GameForm Kv { get; set; } = new GameForm();
     }
 
 }

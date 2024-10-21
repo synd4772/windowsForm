@@ -1,8 +1,4 @@
-john:maga|10;
-zxc:pass|2;
-Maga:zxc|0;
-John:asd|0;
-as:asd|0;
-asdasd:asd|0;
-asd:asd|0;
-illuzor:zxc|0;
+john:maga;
+zxc:pass;
+zxczxc:lox;
+aleksander:lo1rsa;

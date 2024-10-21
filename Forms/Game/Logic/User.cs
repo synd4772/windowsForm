@@ -8,7 +8,7 @@ namespace KolmRakendust.Forms.Game.Logic
 {
     public class User
     {
-        public int Score { get; set; }
+        public List<Game> Games { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public User(string username, string password)
@@ -16,23 +16,23 @@ namespace KolmRakendust.Forms.Game.Logic
             this.Username = username;
             this.Password = password;
         }
-        public User(string username, string password, int score)
+        public User(string username, string password, List<Game> score)
         {
             this.Username = username;
             this.Password = password;
-            this.Score = score;
+            this.Games = score;
         }
         public override string ToString()
         {
-            return $"{this.Username}:{this.Password}|{this.Score.ToString()};"; 
+            return $"{this.Username}:{this.Password};"; 
         }
         public static explicit operator User(string data)
         {
             string[] splited = data.Split("|");
             string[] nameAndPassword = splited[0].Split(":");
-            string score = splited[1].Split(";")[0];
 
-            return new User(nameAndPassword[0], nameAndPassword[1], int.Parse(score));
+
+            return new User(nameAndPassword[0], nameAndPassword[1].Split(";")[0]);
         }
     }
 }
