@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust.Forms.Game.Controls
+namespace KolmRakendust.Core.Enums.Game
 {
-    public partial class Settings: UserControl
+    public enum MoveType
     {
-        
+        FirstMove, WrongMove, RightMove
     }
 }

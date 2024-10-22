@@ -39,7 +39,6 @@ namespace KolmRakendust.Forms.Game.Logic
                 foreach (User user in CurrentUsers)
                 {
                     index++;
-                    Console.WriteLine($"{user}{(index + 1 == CurrentUsers.Count ? "\n" : "")}");
                     writer.Write($"{user}{(index + 1 != CurrentUsers.Count ? "\n" : "")}");
                 }
             }

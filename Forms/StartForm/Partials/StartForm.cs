@@ -20,7 +20,7 @@ namespace KolmRakendust
         {
             ClickCount = 0;
             DoubleClickVar = 0;
-
+            AllocConsole();
             this.Height = 500;
             this.Width = 700;
             this.Text = "Vorm elementidega";
@@ -52,7 +52,6 @@ namespace KolmRakendust
                     sum += (int)i;
                 }
             }
-            Console.WriteLine(sum);
             return sum != 0 ? sum + plus : sum;
         }
 
@@ -69,7 +68,6 @@ namespace KolmRakendust
                     sum += (int)i;
                 }
             }
-            Console.WriteLine(sum);
             return sum;
         }
 
@@ -99,10 +97,7 @@ namespace KolmRakendust
 
         private void Tree_AfterSelect(object? sender, TreeViewEventArgs e)
         {
-            AllocConsole();
-            Console.WriteLine(123);
             if (e.Node is null) { return; }
-            Console.WriteLine($"{e.Node.Text == "Nupp"}");
             switch (e?.Node.Text)
             {
                 case "Nupp":
@@ -134,7 +129,6 @@ namespace KolmRakendust
                     break;
 
                 default:
-                    Console.WriteLine("None");
                     break;
             }
         }

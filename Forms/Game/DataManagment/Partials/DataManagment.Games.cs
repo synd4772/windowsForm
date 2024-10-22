@@ -10,18 +10,60 @@ namespace KolmRakendust.Forms.Game.Logic
 {
     public partial class DataManagment
     {
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
         public List<Game> GetCurrentGamesFromFile()
         {
             List<Game> games = new List<Game>();
             using (StreamReader reader = new StreamReader(GamesFilePath))
             {
+
                 string line;
+                bool gameDetected = false;
+                string[]? data = null;
+                List<string> tempDataList = new List<string>();
                 while ((line = reader.ReadLine()) != null)
                 {
-                    string[] splited = line.Split("|");
-                    string[] nameAndPassword = splited[0].Split(":");
-                    Game game = (Game)line.Trim();
-                    games.Add(game);
+   
+                    if (line == ">>>>")
+                    {
+                        if (gameDetected)
+                        {
+                            gameDetected = false;
+                            data = new string[tempDataList.Count];
+                            int index = -1;
+                            foreach(string tempData in tempDataList)
+                            {
+                                index++;
+                                data[index] = tempData;
+                            }
+                            Game game = (Game)data;
+                            data = null;
+                            tempDataList = new List<string>();
+                            //for(int xx = 0; xx < game.BoardSymbols.GetLength(0); xx++)
+                            //{
+                            //    for(int yy = 0; yy < game.BoardSymbols.GetLength(1); yy++)
+                            //    {
+                            //        Console.Write($"{game.BoardSymbols[xx, yy]},");
+                            //    }
+                            //    Console.WriteLine("\n");
+                            //}
+                            //Console.WriteLine("\n");
+                            //foreach(string move in game.MoveQueue.CurrentMoves)
+                            //{
+                            //    Console.WriteLine(move);
+                            //}
+                            games.Add(game);
+                            continue;
+                        }
+                        gameDetected = true;
+                        continue;
+                    }
+                    else if (gameDetected)
+                    {
+                        tempDataList.Add(line.Trim());
+                    }
                 }
             }
             return games;
@@ -34,33 +76,21 @@ namespace KolmRakendust.Forms.Game.Logic
             }
             this.CurrentGames = GetCurrentGamesFromFile();
         }
-        public void DeleteNotFinishedGames()
-        {
-            List<Game> gamesForDelete = new List<Game>();
-            foreach(Game game in CurrentGames)
-            {
-                if(game.Time == -1)
-                {
-                    gamesForDelete.Add(game);
-                }
-            }
-            foreach(Game game in gamesForDelete)
-            {
-                CurrentGames.Remove(game);
-            }
-            this.UpdateGamesFile();
-        }
+
         public void UpdateGamesFile()
         {
             int index = -1;
             using (StreamWriter writer = new StreamWriter(GamesFilePath))
             {
+                
                 foreach (Game game in CurrentGames)
                 {
+                    
                     index++;
                     writer.Write($"{game}{(index + 1 != CurrentGames.Count ? "\n" : "")}");
                 }
             }
+            this.CurrentGames = GetCurrentGamesFromFile();
         }
 
         public bool FindGame(Game fGame)
@@ -102,10 +132,15 @@ namespace KolmRakendust.Forms.Game.Logic
         public List<Game> FindGamesByUser(User user)
         {
             List<Game> userGames = new List<Game>();
+            this.CurrentGames = GetCurrentGamesFromFile();
+            Console.WriteLine($"current games count {CurrentGames.Count}");
             foreach (Game game in CurrentGames)
             {
+                
+                
                 if (game.CurrentUserName == user.Username)
                 {
+                    Console.WriteLine(true);
                     userGames.Add(game);
                 }
             }
@@ -114,12 +149,12 @@ namespace KolmRakendust.Forms.Game.Logic
 
         public Game? GetBestGame(User user)
         {
+            Console.WriteLine("GetBestGame");
             List<Game> games = this.FindGamesByUser(user);
+            
             Game? bestGame = null;
             foreach (Game game in games)
             {
-
-                if (game.Time == -1) continue;
                 if (bestGame is null )
                 {
                     
@@ -140,7 +175,6 @@ namespace KolmRakendust.Forms.Game.Logic
         {
             foreach (Game game in CurrentGames)
             {
-                Console.WriteLine($"123, {game.CurrentTime}, {time}");
                 if(game.CurrentTime.Split(";")[0] == time.Split(";")[0])
                 {
                     return game;

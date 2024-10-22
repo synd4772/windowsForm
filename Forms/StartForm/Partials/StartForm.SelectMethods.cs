@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using KolmRakendust.Core.Interfaces;
+using KolmRakendust.Core.Enums;
 
 namespace KolmRakendust
 {
@@ -82,7 +83,6 @@ namespace KolmRakendust
         }
         private void TekstikastSelect()
         {
-            Console.WriteLine(getFreeY(10));
             Txt.Location = new Point(150, getFreeY(10));
             Txt.Font = new Font("Arial", 26);
             Txt.Width = 200;
@@ -136,28 +136,51 @@ namespace KolmRakendust
             int y = 20;
             foreach (IVorm vorm in vormid)
             {
-                RadioButton rdb = new RadioButton();
+                RadioButton rdb1 = new RadioButton();
+                rdb1.Name = vorm.VormName;
+                rdb1.Tag = vorm.FormType;
 
-                rdb.CheckedChanged += new EventHandler((object? sender, EventArgs e) =>
+                rdb1.CheckedChanged += new EventHandler((object? sender, EventArgs e) =>
                 {
-                    Form? localVorm = vorm as Form;
-                    if(localVorm is null) return;
+                    RadioButton? rdb = sender as RadioButton;
+                    
+                    if(rdb is null) return;
 
-                    RadioButton? rb = sender as RadioButton;
-                    if(rb is null) { return; }
-
-                    if (rb.Checked)
+                    switch (rdb.Tag)
                     {
-                        CurrentVorm?.Dispose();
-                        Console.WriteLine((localVorm as IVorm).VormName);
-                        localVorm.Show();
-                        CurrentVorm = localVorm;
+                        case FormType.PictureViewer: 
+                        {
+                            PictureViewer pctv = new PictureViewer(800, 500);
+                            CurrentVorm?.Dispose();
+                            CurrentVorm = pctv;
+                            pctv.Show();
+                            this.Ev = pctv;
+                            break;
+                        }
+                        case FormType.MathQuiz:
+                            {
+                                MathQuizForm mq = new MathQuizForm(500, 400);
+                                CurrentVorm?.Dispose();
+                                CurrentVorm = mq;
+                                mq.Show();
+                                this.Tv = mq;
+                                break;
+                            }
+                        case FormType.Game:
+                            {
+                                GameForm gf = new GameForm();
+                                CurrentVorm?.Dispose();
+                                CurrentVorm = gf;
+                                gf.Show();
+                                this.Kv = gf;
+                                break;
+                            }
                     }
                 });
                 
-                rdb.Text = vorm.VormName;
-                rdb.Location = new Point(0, y);
-                vormidNuppid.Controls.Add(rdb);
+                rdb1.Text = vorm.VormName;
+                rdb1.Location = new Point(0, y);
+                vormidNuppid.Controls.Add(rdb1);
                 y += 20;
             }
             vormidNuppid.Location = new Point(150, getFreeY());

@@ -1,4 +1,5 @@
-﻿using KolmRakendust.Core.Enums.MathQuiz;
+﻿using KolmRakendust.Core.Enums;
+using KolmRakendust.Core.Enums.MathQuiz;
 using KolmRakendust.MathQuiz.Logic;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,13 @@ namespace KolmRakendust
     {
         // MathQuiz.cs
         public string VormName { get; set; } = "Math quiz"; // IVorm
+        public FormType FormType { get; set; } = FormType.MathQuiz; // IVorm
         public Mode? CurrentMode { get; set; }
         public List<MathExample> CurrentExamples { get; set; } = new List<MathExample>();
         private System.Windows.Forms.Timer? Timer { get; set; }
         public Label TimeLeftLabel { get; set; } = new Label();
         public int TimeLeft { get; set; } = 0;
+        
           
         // MathQuiz.MainMenu.cs
         public Button InfinityModeButton { get; set; } = new Button();

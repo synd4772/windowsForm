@@ -30,19 +30,20 @@ namespace KolmRakendust.Forms.Game.Controls
 
         public int FormWidth { get; } = 480;
         public int FormHeight { get; } = 450;
-        public Menu(User user, DataManagment dm)
+        public Menu(User user)
         {
+            DataManagment dm = DataManagment.Instance;
+
             this.Size = new Size(FormWidth, FormHeight);
 
             SettingsButton.Location = new Point(FormWidth - SettingsButton.Size.Width, FormHeight - SettingsButton.Height);
             StartGameButton.Location = new Point(0, FormHeight - StartGameButton.Height);
             StartGameButton.Click += startGame_click;
-
             Label welcomeLabel = new Label
             {
                 Text = $"Hi, {user.Username}!",
                 Font = new Font("Arial", 18),
-                Size = new Size(150, 50)
+                Size = new Size(450, 50)
             };
             welcomeLabel.Location = new Point(0, 0);
 
@@ -65,7 +66,11 @@ namespace KolmRakendust.Forms.Game.Controls
 
         private void startGame_click(object? sender, EventArgs e)
         {
-            onStartGame();
+            if (onStartGame != null)
+            {
+                onStartGame();
+            }
+            
         }
     }
 }

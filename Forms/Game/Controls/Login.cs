@@ -14,12 +14,12 @@ namespace KolmRakendust.Forms.Game.Controls
         
         public event SuccesfulSubmitDelegate OnSuccesfulSubmit;
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        //[DllImport("kernel32.dll", SetLastError = true)]
+        //[return: MarshalAs(UnmanagedType.Bool)]
+        //static extern bool AllocConsole();
 
         public EventHandler SuccesfulSubmit { get; set; }
-        private DataManagment UM { get; set;}
+        private DataManagment DM { get; set;}
         public const int UserControlWidth = 400;
         public const int UserControlHeight = 400;
         public TextBox UserNameInput { get; set; } = new TextBox 
@@ -37,10 +37,10 @@ namespace KolmRakendust.Forms.Game.Controls
             PlaceholderText = "Type your password"
         };
 
-        public Login(DataManagment um)
+        public Login()
         {
+            this.DM = DataManagment.Instance;
 
-            this.UM = um;
             this.Width = UserControlWidth;
             this.Height = UserControlHeight;
 
@@ -81,7 +81,7 @@ namespace KolmRakendust.Forms.Game.Controls
         }
         private void submit_Click(object? sender, EventArgs e)
         {
-            User? user = UM.GetUserByName(UserNameInput.Text);
+            User? user = DM.GetUserByName(UserNameInput.Text);
             if (user is not null)
             {
                 if(user.Password == PasswordInput.Text)
@@ -92,7 +92,6 @@ namespace KolmRakendust.Forms.Game.Controls
                 }
                 else
                 {
-                    Console.Write($"{user.Password} != {PasswordInput.Text}");
                     MessageBox.Show("Wrong password!", "Login form");
                 }
             }
@@ -105,7 +104,7 @@ namespace KolmRakendust.Forms.Game.Controls
                 }
 
                 User newUser = new User(UserNameInput.Text, PasswordInput.Text);
-                UM.AddUser(newUser);
+                DM.AddUser(newUser);
                 
                 OnSuccesfulSubmit(newUser);
                 MessageBox.Show("You've been registered!", "Login form");

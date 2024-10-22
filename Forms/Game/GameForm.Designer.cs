@@ -1,4 +1,6 @@
-﻿namespace KolmRakendust
+﻿
+
+namespace KolmRakendust
 {
     partial class GameForm
     {
@@ -19,7 +21,7 @@
             }
             base.Dispose(disposing);
         }
-        public System.Windows.Forms.Timer timer1;
+        
         #region Windows Form Designer generated code
 
         /// <summary>

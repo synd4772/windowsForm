@@ -1,4 +1,5 @@
-﻿using KolmRakendust.Core.Interfaces;
+﻿using KolmRakendust.Core.Enums;
+using KolmRakendust.Core.Interfaces;
 
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace KolmRakendust
     public partial class PictureViewer : Form, IVorm
     {
         private bool GalleryIsOpen { get; set; }
+        public FormType FormType { get; set; } = FormType.PictureViewer;
         public string VormName { get; set; } = "Picture viewer";
         public List<string> FileNames { get; set; } = new List<string>();
         public TableLayoutPanel tlp{ get; set; } 

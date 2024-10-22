@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust.Forms.Game.Controls
+namespace KolmRakendust.Forms.StartForm.Controls
 {
-    public partial class Settings: UserControl
+    internal class FormStateRadioButton
     {
-        
+
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace KolmRakendust.Forms.Game.Controls
 {
-    public partial class Settings: UserControl
+    public partial class GameLabel: Label
     {
-        
+        public int[,] PositionInBoard { get; set;}
     }
 }

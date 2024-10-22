@@ -34,7 +34,6 @@ namespace KolmRakendust
         }
         private void trackBar1_Scroll(object? sender, EventArgs e)
         {
-            Console.WriteLine(trackBar.Value);
             if (bmp == null) bmp = (Bitmap)pragueneVorm.pb.Image;
             Size sz = bmp.Size;
             Bitmap zoomed = (Bitmap)pragueneVorm.pb.Image;
