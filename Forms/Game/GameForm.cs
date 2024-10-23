@@ -8,6 +8,7 @@ using KolmRakendust.Core.Interfaces;
 using KolmRakendust.Forms.Game.Controls;
 using KolmRakendust.Forms.Game.Logic;
 using KolmRakendust.Forms.Game.Logic.Moves;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace KolmRakendust
 {
@@ -18,11 +19,11 @@ namespace KolmRakendust
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool AllocConsole();
         public DataManagment DM { get; set; }
-        public TableLayoutPanel Tlp { get; set; } = new TableLayoutPanel();
+        public Board? CurrentBoard { get; set; }
         public List<List<Label>> ColumnsAndRows { get; set; } = [];
         private Random random { get; set; } = new Random();
 
-        private List<string> icons =
+        private string[] icons =
         [
             "!", "!", "N", "N", "n", "n", "k", "k",
             "b", "b", "v", "v", "w", "w", "z", "z"
@@ -39,10 +40,10 @@ namespace KolmRakendust
         public System.Windows.Forms.Timer Timer { get; set; } = new System.Windows.Forms.Timer();
         public GameForm()
         {
+            AllocConsole();
             this.DM = DataManagment.Instance;
-
             this.Text = "Login form";
-            this.ClientSize = new Size(550, 550);
+            this.ClientSize = new Size(GameUtils.FormWidth, GameUtils.FormHeight);
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = true;
@@ -64,97 +65,90 @@ namespace KolmRakendust
             Menu menu = new Menu(CurrentUser);
             this.Text = "General";
             menu.onStartGame += StartGame;
+            menu.onRecentGames += RecentGameRender; 
             menu.Location = new Point(this.ClientSize.Width / 2 - menu.Width / 2, this.ClientSize.Height / 2 - menu.Height / 2);
             this.Controls.Add(menu);
         }
 
-        public void StartGame()
+        public void RecentGameRender()
         {
             this.Controls.Clear();
+            RecentGames recentGames = new RecentGames(DM.FindGamesByUser(CurrentUser.Username));
+            recentGames.Location = new Point(this.ClientSize.Width / 2 - recentGames.Width / 2, 0);
+            recentGames.onGameClick += GameReplayRender;
+            Button closeButton = new Button
+            {
+                Text = "Close",
+                Font = new Font("Arial", 18),
+                Size = new Size(100, 50)
+                
+            };
+            closeButton.Location = new Point(this.ClientSize.Width / 2 - closeButton.Width / 2 , this.ClientSize.Height - closeButton.Height);
+            closeButton.Click += (object? sender, EventArgs e) =>
+            {
+                this.Controls.Clear();
+                MenuRender();
+            };
+            this.Controls.Add(closeButton);
+            this.Controls.Add(recentGames);
+        }
+
+        public void GameReplayRender(Game game)
+        {
+            this.Controls.Clear();
+            GameReplay gameReplay = new GameReplay(game);
+            
+            gameReplay.Location = new Point(this.ClientSize.Width / 2 - gameReplay.Width / 2, 0);
+
+            this.Controls.Add(gameReplay);
+        }
+
+        public void StartGame()
+        {
+            
+            this.Controls.Clear();
             this.Text = "Matching Game";
-            AllocConsole();
+            
             this.DM = DataManagment.Instance;
 
             CurrentGame = new Game(CurrentUser);
-            Console.WriteLine(CurrentGame.CurrentUserName);
             CurrentGame.GameId = DM.CurrentGames.Count;
             CurrentGame.OnMistakes += this.onMistake;
  
-
-
             this.Timer = new System.Windows.Forms.Timer();
             Timer.Interval = 1000;
             Timer.Start();
-            Timer.Tick += timer1_Tick;
-            Tlp = new TableLayoutPanel();
-            Tlp.BackColor = Color.CornflowerBlue;
-            Tlp.Dock = DockStyle.Fill;
-            Tlp.CellBorderStyle = TableLayoutPanelCellBorderStyle.Inset;
-            Tlp.RowCount = 5;
-            Tlp.ColumnCount = 4;
+            Timer.Tick += timer_Tick;
 
+            int rowCount = 4;
+            int columnCount = 4;
+            string[,] boardSymbols = GameUtils.GetRandomSymbols(icons, columnCount, rowCount);
+            CurrentGame.BoardSymbols = boardSymbols;
+            Board board = new Board(BoardType.Game, boardSymbols, label_Click, 400, 400);
+            board.Location = new Point(this.ClientSize.Width / 2 - board.Width / 2, this.ClientSize.Height / 2 - board.Height / 2);
+            this.CurrentBoard = board;
 
-            for (int i = 0; i < Tlp.RowCount; i++)
-            {
-                Tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-                Tlp.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            }
-            List<string> iconsCopy = new List<string>(icons);
-            
-
-            for (int i = 1; i < Tlp.RowCount; i++)
-            {
-                
-                ColumnsAndRows.Add(new List<Label>());
-                for (int j = 0; j < Tlp.ColumnCount; j++)
-                {
-                    int randInt = random.Next(0, iconsCopy.Count);
-                    Label label = new Label();
-                    
-                    label.AutoSize = false;
-                    label.Dock = DockStyle.Fill;
-                    label.TextAlign = ContentAlignment.MiddleCenter;
-                    label.Font = new Font("Webdings", 48, FontStyle.Bold);
-
-                    
-
-                    label.ForeColor = Color.CornflowerBlue;
-                    label.Click += new EventHandler(label1_Click);
-                    //Console.WriteLine($"i: {i -1}, j: {j}");
-                    Tlp.Controls.Add(label);
-                    
-                    label.Text = iconsCopy[randInt];
-                    
-                    CurrentGame.BoardSymbols[i - 1, j] = iconsCopy[randInt];
-                    SymbolType? smtp = GameUtils.GetValue(iconsCopy[randInt]);
-                    if(smtp is null) return;
-
-                    label.Tag = new GameLabelTag([i - 1, j], smtp.Value);
-                    iconsCopy.RemoveAt(randInt);
-                    ColumnsAndRows[i - 1].Add(label);
-                }
-            }
-            Label lbl = new Label
+            this.Controls.Add(board);
+            Label timeLabel = new Label
             {
                 Text = $"Time: {CurrentTime}",
                 Font = new Font("Arial", 17),
                 Size = new Size(150, 50),
                 Name = "TimerLabel"
             };
-            Tlp.Controls.Add(lbl);
-            Label lbl2 = new Label()
+            this.Controls.Add(timeLabel);
+            Label mistakesLabel = new Label()
             {
                 Text = $"Mistakes: {CurrentGame.Mistakes}",
                 Font = new Font("Arial", 17),
                 Size = new Size(150, 50),
                 Name = "MistakesLabel"
             };
-            Tlp.Controls.Add(lbl2);
-
-            this.Controls.Add(Tlp);
+            mistakesLabel.Location = new Point(timeLabel.Width + 20, 0);
+            this.Controls.Add(mistakesLabel);
         }
 
-        private void label1_Click(object? sender, EventArgs e)
+        private void label_Click(object? sender, EventArgs e)
         {
             if (sender == null) return;
             Label? clickedLabel = sender as Label;
@@ -213,22 +207,22 @@ namespace KolmRakendust
         }
         private void onMistake()
         {
-            Label? label = Tlp.Controls.Find("MistakesLabel", false)[0] as Label;
+            Label? label = this.Controls.Find("MistakesLabel", false)[0] as Label;
             if (label is null) return;
             label.Text = $"Mistakes: {CurrentGame.Mistakes}";
         }
-        private void timer1_Tick(object? sender, EventArgs e)
+        private void timer_Tick(object? sender, EventArgs e)
         {
             this.CurrentTime++;
             CurrentGame.Time = this.CurrentTime;
 
-            Label? label = Tlp.Controls.Find("TimerLabel", false)[0] as Label;
+            Label? label = this.Controls.Find("TimerLabel", false)[0] as Label;
             if (label is not null) label.Text = $"Time: {CurrentTime}";
         }
 
         private void CheckForWinner()
         {
-            foreach (Control control in Tlp.Controls)
+            foreach (Control control in CurrentBoard.CurrentBoard.Controls)
             {
                 Label? iconLabel = control as Label;
 
@@ -238,8 +232,6 @@ namespace KolmRakendust
                         return;
                 }
             }
-
-            Tlp = new TableLayoutPanel();
             ColumnsAndRows  = [];
             Timer.Stop();
             this.Controls.Clear();

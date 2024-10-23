@@ -41,7 +41,6 @@ namespace KolmRakendust.Forms.Game.Logic.Moves
         public override string ToString()
         {
             
-            Console.WriteLine($"{Position[0].ToString()}:{Position[1].ToString()}-{MoveType.ToString()}-{SymbolType.ToString()}");
             return $"{Position[0].ToString()}:{Position[1].ToString()}-{MoveType.ToString()}-{SymbolType.ToString()}"; 
             // example: "3:5-FirstMove-Spider"
         }

@@ -6,10 +6,12 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KolmRakendust.Forms.Game.Logic.Moves
-{
+namespace KolmRakendust.Forms.Game.Logic { 
     public static class GameUtils
     {
+        public static int FormWidth { get; } = 550;
+        public static int FormHeight { get;} = 550;
+
         public static Dictionary<SymbolType, string> Symbols = new Dictionary<SymbolType, string>() {
             { SymbolType.Spider, "!" },
             { SymbolType.Eye, "N" },
@@ -42,6 +44,25 @@ namespace KolmRakendust.Forms.Game.Logic.Moves
                 }
             }
             return null;
+        }
+        public static string[,] GetRandomSymbols(string[] currentSymbols, int x, int y)
+        {
+            string[,] returnSymbols = new string[x,y];
+            List<string> symbolsCopy = new List<string>(currentSymbols);
+
+            Random random = new Random();
+
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    int randInt = random.Next(0, symbolsCopy.Count);
+                    returnSymbols[i, j] = symbolsCopy[randInt];
+                    symbolsCopy.RemoveAt(randInt);
+                }
+            }
+
+            return returnSymbols;
         }
     }
 }

@@ -41,19 +41,6 @@ namespace KolmRakendust.Forms.Game.Logic
                             Game game = (Game)data;
                             data = null;
                             tempDataList = new List<string>();
-                            //for(int xx = 0; xx < game.BoardSymbols.GetLength(0); xx++)
-                            //{
-                            //    for(int yy = 0; yy < game.BoardSymbols.GetLength(1); yy++)
-                            //    {
-                            //        Console.Write($"{game.BoardSymbols[xx, yy]},");
-                            //    }
-                            //    Console.WriteLine("\n");
-                            //}
-                            //Console.WriteLine("\n");
-                            //foreach(string move in game.MoveQueue.CurrentMoves)
-                            //{
-                            //    Console.WriteLine(move);
-                            //}
                             games.Add(game);
                             continue;
                         }
@@ -133,14 +120,10 @@ namespace KolmRakendust.Forms.Game.Logic
         {
             List<Game> userGames = new List<Game>();
             this.CurrentGames = GetCurrentGamesFromFile();
-            Console.WriteLine($"current games count {CurrentGames.Count}");
             foreach (Game game in CurrentGames)
             {
-                
-                
                 if (game.CurrentUserName == user.Username)
                 {
-                    Console.WriteLine(true);
                     userGames.Add(game);
                 }
             }
@@ -149,7 +132,6 @@ namespace KolmRakendust.Forms.Game.Logic
 
         public Game? GetBestGame(User user)
         {
-            Console.WriteLine("GetBestGame");
             List<Game> games = this.FindGamesByUser(user);
             
             Game? bestGame = null;
@@ -183,6 +165,15 @@ namespace KolmRakendust.Forms.Game.Logic
             }
             return null;
 
+        }
+
+        public List<int> GetUserGamesId(string username)
+        {
+            List<int> returnList = new List<int>();
+
+            
+
+            return returnList;
         }
     }
 }

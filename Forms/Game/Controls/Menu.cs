@@ -8,10 +8,11 @@ using gamePath = KolmRakendust.Forms.Game.Logic;
 
 namespace KolmRakendust.Forms.Game.Controls
 {
-    public delegate void StartGame();
+    public delegate void VoidDelegate();
     public partial class Menu: UserControl
     {
-        public event StartGame onStartGame;
+        public event VoidDelegate onStartGame;
+        public event VoidDelegate onRecentGames;
         public Button SettingsButton { get; set; } = new Button
         {
             Name = "SettingsButton",
@@ -25,6 +26,13 @@ namespace KolmRakendust.Forms.Game.Controls
             Font = new Font("Arial", 18),
             Size = new Size(150, 50),
             Text = "Start game"
+        };
+        public Button RecentGames { get; set; } = new Button
+        {
+            Name = "RecentGames",
+            Font = new Font("Arial", 18),
+            Size = new Size(250, 50),
+            Text = "Recent games"
         };
         public User CurrentUser { get; set; }
 
@@ -56,11 +64,21 @@ namespace KolmRakendust.Forms.Game.Controls
                 Size = new Size(480, 50)
             };
             scoreLabel.Location = new Point(0, 50);
-           
+
+            RecentGames.Location = new Point(FormWidth - RecentGames.Size.Width, FormHeight - RecentGames.Height - RecentGames.Height - 50);
+            RecentGames.Click += recentGames_click;
             
-            foreach(Control control in new List<Control>() { SettingsButton, StartGameButton, welcomeLabel, scoreLabel})
+            foreach(Control control in new List<Control>() { SettingsButton, StartGameButton, RecentGames, welcomeLabel, scoreLabel})
             {
                 this.Controls.Add(control);
+            }
+        }
+
+        private void recentGames_click(object? sender, EventArgs e)
+        {
+            if(onRecentGames is not null)
+            {
+                onRecentGames();
             }
         }
 
