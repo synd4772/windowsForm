@@ -187,8 +187,7 @@ namespace KolmRakendust
 
             secondClicked = clickedLabel;
             secondClicked.ForeColor = Color.Black;
-
-            CheckForWinner();
+            
 
             if (firstClicked.Text == secondClicked.Text)
             {
@@ -203,6 +202,8 @@ namespace KolmRakendust
                 this.next = true;
             }
             CurrentGame.MoveQueue.AddMove(currentMove);
+            CheckForWinner();
+            
 
         }
         private void onMistake()

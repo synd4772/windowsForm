@@ -59,7 +59,7 @@ namespace KolmRakendust.Forms.Game.Logic
         {
             using (StreamWriter writer = new StreamWriter(GamesFilePath, true))
             {
-                writer.Write($"\n{game.ToString()}");
+                writer.Write($"{(this.CurrentGames.Count > 0 ?"\n":"")}{game.ToString()}");
             }
             this.CurrentGames = GetCurrentGamesFromFile();
         }

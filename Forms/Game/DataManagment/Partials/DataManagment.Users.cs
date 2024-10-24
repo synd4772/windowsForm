@@ -16,7 +16,10 @@ namespace KolmRakendust.Forms.Game.Logic
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-
+                    if(line == "")
+                    {
+                        continue;
+                    }
                     User user = (User)line.Trim();
                     users.Add(user);
                 }
@@ -27,7 +30,7 @@ namespace KolmRakendust.Forms.Game.Logic
         {
             using (StreamWriter writer = new StreamWriter(UsersFilePath, true))
             {
-                writer.Write($"\n{user.ToString()}");
+                writer.Write($"{(this.CurrentUsers.Count > 0 ?"\n":"")}{user.ToString()}");
             }
             this.CurrentUsers = GetCurrentUsersFromFile();
         }

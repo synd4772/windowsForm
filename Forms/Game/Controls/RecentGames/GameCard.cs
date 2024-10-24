@@ -13,6 +13,7 @@ namespace KolmRakendust.Forms.Game.Controls
         public Logic.Game Game { get; set; }
         public GameCard(Logic.Game game)
         {
+            this.Game = game;
             this.ClientSize = new Size(445, 100);
             Board = new Board(BoardType.Visual, game, 100, 100);
 

@@ -56,12 +56,20 @@ namespace KolmRakendust.Forms.Game.Controls
 
         public void nextButton_click(object? sender, EventArgs e)
         {
+            if(MoveCount + 1 > Game.MoveQueue.CurrentMoves.Count)
+            {
+                MessageBox.Show("Moves are completed");
+                Console.WriteLine(MoveCount);
+                return;
+            }
+            Console.WriteLine($"MoveCount {MoveCount + 1}, actually count {Game.MoveQueue.CurrentMoves.Count}" );
             Move move = (Move)Game.MoveQueue.CurrentMoves[MoveCount];
             Control control = Board.GetLabelByPosition(move.Position);
 
             Move? prevMove = null;
             Control? prevControl = null;
             
+ 
 
             if(MoveCount - 1 >= 0) 
             { 
@@ -116,8 +124,11 @@ namespace KolmRakendust.Forms.Game.Controls
 
         public void prevButton_click(object? sender, EventArgs e)
         {
-
-            MoveCount--;
+            if(MoveCount != 0)
+            {
+                MoveCount--;
+            }
+            
         }
     }
 }

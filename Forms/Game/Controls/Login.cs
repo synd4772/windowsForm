@@ -11,7 +11,9 @@ namespace KolmRakendust.Forms.Game.Controls
     public delegate void SuccesfulSubmitDelegate(User user);
     public partial class Login: UserControl
     {
-        
+                [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
         public event SuccesfulSubmitDelegate OnSuccesfulSubmit;
 
         //[DllImport("kernel32.dll", SetLastError = true)]
@@ -39,6 +41,7 @@ namespace KolmRakendust.Forms.Game.Controls
 
         public Login()
         {
+            AllocConsole();
             this.DM = DataManagment.Instance;
 
             this.Width = UserControlWidth;
@@ -84,6 +87,7 @@ namespace KolmRakendust.Forms.Game.Controls
             User? user = DM.GetUserByName(UserNameInput.Text);
             if (user is not null)
             {
+                Console.WriteLine($"{user.Password} == {PasswordInput.Text}");
                 if(user.Password == PasswordInput.Text)
                 {
                     

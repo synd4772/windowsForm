@@ -1,9 +1,1 @@
-john:maga;
-zxc:pass;
-zxczxc:lox;
-aleksander:lo1rsa;
-zxclox:lox;
-Aleksander:lox;
-John:lox;
-Aaleksander:zxclox;
-aleksandermili:lolkek;
+john:doe;

@@ -15,7 +15,7 @@ namespace KolmRakendust.Forms.Game.Logic
     {
         public int GameId { get; set; }
         public event OnMistake OnMistakes;
-        private int _mistakes = -1;
+        private int _mistakes = 0;
         public int Time { get; set; } = -1;
         public MoveQueue MoveQueue { get; set;} = new MoveQueue();
         public string[,] BoardSymbols { get; set; } = new string[4,4];
